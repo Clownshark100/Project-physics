@@ -47,6 +47,10 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         GridPane result = new GridPane();
         Button playPause = new Button(PLAY_TEXT), done = new Button(DONE_TEXT), reset = new Button(RESET_TEXT),
                 help = new Button(HELP_TEXT);
+        result.add(playPause, 0, 0);
+        result.add(reset, 1, 0);
+        result.add(help, 2, 0);
+        result.add(done, 3 , 0);
         return result;
     }
     
