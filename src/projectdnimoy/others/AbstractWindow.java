@@ -6,6 +6,9 @@
 package projectdnimoy.others;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
@@ -20,22 +23,25 @@ import projectdnimoy.ConstantsInterface;
  */
 public abstract class AbstractWindow extends Application implements ConstantsInterface {
     public abstract void resetVariables();
-    String title;
+    public abstract void pauseAnimations();
+    public abstract void playAnimations();
     
-    public AbstractWindow(int topic, int choice) {
-        title = TOPICS[topic][choice];
+    private SimpleStringProperty title = new SimpleStringProperty();
+    
+    public AbstractWindow() {
+        
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane root = new GridPane();
         root.add(initAnimationPane(), 0, 0, 2, 1);
-        root.add(initButtonPane(), 0, 1);
+        root.add(initButtonPane(primaryStage), 0, 1);
         root.add(initChart(), 1, 1);
         
         Scene scene = new Scene(root, width, height);
         
-        primaryStage.setTitle(title);
+        primaryStage.setTitle(getTitle());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -43,15 +49,31 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     public abstract Pane initAnimationPane();
     public abstract LineChart initChart();
     
-    GridPane initButtonPane() {
+    GridPane initButtonPane(Stage primaryStage) {
         GridPane result = new GridPane();
         Button playPause = new Button(PLAY_TEXT), done = new Button(DONE_TEXT), reset = new Button(RESET_TEXT),
                 help = new Button(HELP_TEXT);
+        done.setOnAction((ActionEvent e)->{
+            pauseAnimations();
+            primaryStage.hide();
+        });
         result.add(playPause, 0, 0);
-        result.add(reset, 1, 0);
-        result.add(help, 2, 0);
-        result.add(done, 3 , 0);
+        result.add(reset, 0, 1);
+        result.add(help, 1, 0);
+        result.add(done, 1, 1);
         return result;
+    }
+    
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+    
+    public String getTitle() {
+        return title.get();
+    }
+    
+    public StringProperty titleProperty() {
+        return title;
     }
     
 }
