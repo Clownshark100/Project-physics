@@ -43,7 +43,7 @@ public class Cannon extends AbstractWindow {
     
     @Override
     public void resetVariables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Cannon extends AbstractWindow {
     }
 
     @Override
-    public LineChart initChart() {
+    public String helpMessage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

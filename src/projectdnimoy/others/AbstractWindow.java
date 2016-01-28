@@ -11,25 +11,34 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import projectdnimoy.ConstantsInterface;
 
 /**
  *
- * @author cstuser
+ * @author Ivan
  */
 public abstract class AbstractWindow extends Application implements ConstantsInterface {
     public abstract void resetVariables();
     public abstract void pauseAnimations();
     public abstract void playAnimations();
+    public abstract String helpMessage();
+    public abstract Pane initAnimationPane();
     
-    private SimpleStringProperty title = new SimpleStringProperty();
+    private final SimpleStringProperty title = new SimpleStringProperty();
+    private final LineChart chart;
+    private final XYChart.Series mainSeries;
     
     public AbstractWindow() {
-        
+        chart = new LineChart(new NumberAxis(), new NumberAxis());
+        mainSeries = new XYChart.Series();
+        chart.getData().add(mainSeries);
     }
 
     @Override
@@ -37,7 +46,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         GridPane root = new GridPane();
         root.add(initAnimationPane(), 0, 0, 2, 1);
         root.add(initButtonPane(primaryStage), 0, 1);
-        root.add(initChart(), 1, 1);
+        root.add(chart, 1, 1);
         
         Scene scene = new Scene(root, width, height);
         
@@ -46,9 +55,6 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         primaryStage.show();
     }
     
-    public abstract Pane initAnimationPane();
-    public abstract LineChart initChart();
-    
     GridPane initButtonPane(Stage primaryStage) {
         GridPane result = new GridPane();
         Button playPause = new Button(PLAY_TEXT), done = new Button(DONE_TEXT), reset = new Button(RESET_TEXT),
@@ -56,6 +62,21 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         done.setOnAction((ActionEvent e)->{
             pauseAnimations();
             primaryStage.hide();
+        });
+        reset.setOnAction((ActionEvent e)->resetVariables());
+        help.setOnAction((ActionEvent e)->JOptionPane.showMessageDialog(null, helpMessage(), 
+                HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE));
+        playPause.setOnAction((ActionEvent e)->{
+            switch (playPause.getText()) {
+                case PLAY_TEXT:
+                    playPause.setText(PAUSE_TEXT);
+                    playAnimations();
+                    break;
+                case PAUSE_TEXT:
+                    playPause.setText(PLAY_TEXT);
+                    playAnimations();
+                    break;
+            }
         });
         result.add(playPause, 0, 0);
         result.add(reset, 0, 1);
@@ -74,6 +95,14 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     
     public StringProperty titleProperty() {
         return title;
+    }
+    
+    public void setTitleChart(String name) {
+        chart.setTitle(name);
+    }
+    
+    public void addPoint(double time, double value) {
+        mainSeries.getData().add(new XYChart.Data(time, value));
     }
     
 }
