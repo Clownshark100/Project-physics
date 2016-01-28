@@ -18,8 +18,18 @@ public class Cannon extends AbstractWindow {
         setTitle(TOPICS[MECH_ID][0]);
     }
     
-    double h= 0, d=0, teta=0, v=0;
-    final double a = 9.80665;
+    double h= 0, d=0, teta=0, v=0, t=0;
+    final double G = 9.80665, MIN_H = 0;
+    
+    private double calculateHeight(double t) {
+        this.t = t;
+        h = MIN_H - 0.5*G; // Popraviti formulu, dobaviti Vy*t
+        return h;
+    }
+    
+    private void calculateDistance() {
+        
+    }
     
     @Override
     public void pauseAnimations() {
