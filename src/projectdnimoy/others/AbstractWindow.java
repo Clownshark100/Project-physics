@@ -34,11 +34,20 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     private final SimpleStringProperty title = new SimpleStringProperty();
     private final LineChart chart;
     private final XYChart.Series mainSeries;
+    private Stage mainMenu;
+    private boolean running;
+    private long lastNanoTime;
+    private double totalRunningTime = 0;
     
     public AbstractWindow() {
+        this.running = false;
         chart = new LineChart(new NumberAxis(), new NumberAxis());
         mainSeries = new XYChart.Series();
         chart.getData().add(mainSeries);
+    }
+    
+    public void setMainMenu(Stage mainMenu) {
+        this.mainMenu = mainMenu;
     }
 
     @Override
@@ -61,6 +70,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                 help = new Button(HELP_TEXT);
         done.setOnAction((ActionEvent e)->{
             pauseAnimations();
+            mainMenu.show();
             primaryStage.hide();
         });
         reset.setOnAction((ActionEvent e)->resetVariables());
@@ -70,10 +80,14 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
             switch (playPause.getText()) {
                 case PLAY_TEXT:
                     playPause.setText(PAUSE_TEXT);
+                    running = true;
+                    lastNanoTime = System.nanoTime();
                     playAnimations();
                     break;
                 case PAUSE_TEXT:
                     playPause.setText(PLAY_TEXT);
+                    running = false;
+                    totalRunningTime += runningTime();
                     playAnimations();
                     break;
             }
@@ -105,4 +119,12 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         mainSeries.getData().add(new XYChart.Data(time, value));
     }
     
+    public boolean isRunning() {
+        return running;
+    }
+    
+    public double runningTime() {
+        long newTime = System.nanoTime();
+        return (newTime-lastNanoTime)/Math.pow(10, 9) + totalRunningTime;
+    }
 }
