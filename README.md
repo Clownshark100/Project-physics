@@ -11,3 +11,4 @@ Comments:
 * Implement drag-and-click methods in AbstractWindow
 * (Optional) Modify dialogs to be JavaFX Popups
 * Finish at least one full window before giving in the algorithm
+* Closer to end, work on optimisation and shift to interface constants
