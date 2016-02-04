@@ -5,6 +5,7 @@
  */
 package projectdnimoy.others;
 
+import java.util.Timer;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -38,6 +39,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     private boolean running;
     private long lastNanoTime;
     private double totalRunningTime = 0;
+    protected Timer t = new Timer();
     
     public AbstractWindow() {
         this.running = false;
@@ -88,7 +90,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                     playPause.setText(PLAY_TEXT);
                     running = false;
                     totalRunningTime += runningTime();
-                    playAnimations();
+                    pauseAnimations();
                     break;
             }
         });
@@ -111,7 +113,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         return title;
     }
     
-    public void setTitleChart(String name) {
+    public void setChartTitle(String name) {
         chart.setTitle(name);
     }
     
@@ -125,6 +127,8 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     
     public double runningTime() {
         long newTime = System.nanoTime();
-        return (newTime-lastNanoTime)/Math.pow(10, 9) + totalRunningTime;
+        double delta = (newTime-lastNanoTime)/Math.pow(10, 9);
+        lastNanoTime = newTime;
+        return delta + totalRunningTime;
     }
 }
