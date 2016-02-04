@@ -23,7 +23,7 @@ public class Cannon extends AbstractWindow {
     }
     
     double h= 0, d=0, tet=0, v=0;
-    double time = 0; //in abstract
+    double t = runningTime();
     final double G = 9.80665, MIN_H = 0, MIN_D =0;
     
     private double calculateHeight(double tet, double v, double t) {
@@ -48,7 +48,8 @@ public class Cannon extends AbstractWindow {
     
     @Override
     public void resetVariables() {
-        
+      h = 0;
+      d = 0;
     }
 
     @Override
@@ -65,7 +66,9 @@ public class Cannon extends AbstractWindow {
 
     @Override
     public String helpMessage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String str1 = "Click and drag the cannon to give it initial velocity and angle of shot. "
+                + "Press start and observe the cannonball's trajectory.";
+        return str1;
     }
     
     public static void main(String[] a){
