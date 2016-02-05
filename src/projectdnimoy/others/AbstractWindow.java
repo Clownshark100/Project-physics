@@ -82,9 +82,9 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
             switch (playPause.getText()) {
                 case PLAY_TEXT:
                     playPause.setText(PAUSE_TEXT);
-                    running = true;
                     lastNanoTime = System.nanoTime();
                     playAnimations();
+                    running = true;
                     break;
                 case PAUSE_TEXT:
                     playPause.setText(PLAY_TEXT);
@@ -126,9 +126,17 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     }
     
     public double runningTime() {
+        totalRunningTime+=deltaTime();
+        return totalRunningTime;
+    }
+    
+    public double deltaTime() {
         long newTime = System.nanoTime();
         double delta = (newTime-lastNanoTime)/Math.pow(10, 9);
-        lastNanoTime = newTime;
-        return delta + totalRunningTime;
+        return delta;
+    }
+    
+    public void nextFrame() {
+        lastNanoTime = System.nanoTime();
     }
 }

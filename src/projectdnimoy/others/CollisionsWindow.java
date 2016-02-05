@@ -20,14 +20,28 @@ public class CollisionsWindow extends AbstractWindow {
     
     private class Ball extends Circle {
         Vector2 vel;
-        int mass = 1;
+        int mass = 2;
         
         public Ball(int radius) {
-            this(new Random().nextInt(width), new Random().nextInt(height), radius);
+            super(radius, Color.BLACK);
+            resetToRandom();
         }
         
         public Ball(int centerX, int centerY, int radius) {
             super(centerX, centerY, radius, Color.BLACK);
+        }
+        
+        public void update() {
+            setPosition(getCenterX()+vel.getX()*deltaTime(), 
+                    getCenterY()+vel.getY()*deltaTime());
+            if(getCenterX()<getRadius() || getCenterX()>paneWidth-getRadius())
+                vel.setX(-vel.getX());
+            else if (getCenterY()<getRadius() || getCenterY()>paneHeight-getRadius())
+                vel.setY(-vel.getY());
+            for(Ball b : samples)
+                if(b!=this)
+                    if(getBoundsInParent().intersects(b.getBoundsInParent()))
+                        transferMomentum(b);
         }
         
         public void setPosition(double x, double y) {
@@ -35,48 +49,50 @@ public class CollisionsWindow extends AbstractWindow {
             setCenterY(y);
         }
         
-        public void setRandomPosition() {
-            setCenterX(new Random().nextInt(width));
-            setCenterY(new Random().nextInt(height));
+        public void resetToRandom() {
+            setCenterX(new Random().nextInt(paneWidth));
+            setCenterY(new Random().nextInt(paneHeight));
+            vel = new Vector2(new Random().nextInt(50)-25, new Random().nextInt(50)-25);
         }
 
-	public void transferMomentum(Ball firstBall, Ball secondBall){
-		double dx = firstBall.getCenterX()-secondBall.getCenterX(), dy = firstBall.getCenterY()-secondBall.getCenterY();
+	public void transferMomentum(Ball other){
+		double dx = this.getCenterX()-other.getCenterX(), dy = this.getCenterY()-other.getCenterY();
 		double theta = Math.atan2(dy, dx);
-		double mag1 = firstBall.vel.getMagnitude(), mag2 = secondBall.vel.getMagnitude();
-		double dir1 = firstBall.vel.getDirection(), dir2 = secondBall.vel.getDirection();
+		double mag1 = this.vel.getMagnitude(), mag2 = other.vel.getMagnitude();
+		double dir1 = this.vel.getDirection(), dir2 = other.vel.getDirection();
 		double new_x1 = mag1*Math.cos(dir1-theta);
 		double new_y1 = mag1*Math.sin(dir1-theta);
 		double new_x2 = mag2*Math.cos(dir2-theta);
 		double new_y2 = mag2*Math.sin(dir2-theta);
-		double final_x1 = ((firstBall.mass-secondBall.mass)*new_x1+(secondBall.mass+secondBall.mass)*new_x2)/(firstBall.mass+secondBall.mass);
-		double final_x2 = ((secondBall.mass-firstBall.mass)*new_x2+(firstBall.mass+firstBall.mass)*new_x1)/(firstBall.mass+secondBall.mass);
-		firstBall.vel.setX(Math.cos(theta)*final_x1+Math.cos(theta+Math.PI/2)*new_y1);
-		firstBall.vel.setY(Math.sin(theta)*final_x1+Math.sin(theta+Math.PI/2)*new_y1);
-		secondBall.vel.setX(Math.cos(theta)*final_x2+Math.cos(theta+Math.PI/2)*new_y2);
-		secondBall.vel.setY(Math.sin(theta)*final_x2+Math.sin(theta+Math.PI/2)*new_y2);
+		double final_x1 = ((this.mass-other.mass)*new_x1+(other.mass+other.mass)*new_x2)/(this.mass+other.mass);
+		double final_x2 = ((other.mass-this.mass)*new_x2+(this.mass+this.mass)*new_x1)/(this.mass+other.mass);
+		this.vel.setX(Math.cos(theta)*final_x1+Math.cos(theta+Math.PI/2)*new_y1);
+		this.vel.setY(Math.sin(theta)*final_x1+Math.sin(theta+Math.PI/2)*new_y1);
+		other.vel.setX(Math.cos(theta)*final_x2+Math.cos(theta+Math.PI/2)*new_y2);
+		other.vel.setY(Math.sin(theta)*final_x2+Math.sin(theta+Math.PI/2)*new_y2);
 	}
     }
-    Ball[] samples = new Ball[3];
-    Ball ctrlBall;
+    Ball[] samples = new Ball[4];
+    int paneWidth = width, paneHeight = height-200;
     
     public CollisionsWindow() {
         setTitle("Collisions Simulation");
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                
+                if(isRunning())
+                    for(Ball b : samples)
+                        b.update();
+                nextFrame();
             }
         }, 1000, 25);
-        ctrlBall = new Ball(width/2, height/2, 10);
-        for(int i = 0; i<3; i++) samples[i] = new Ball(10);
+        for(int i = 0; i<samples.length; i++) samples[i] = new Ball(15);
     }
     
     @Override
     public void resetVariables() {
-        ctrlBall.setPosition(width/2, height/2);
-        for(int i = 0; i<3; i++) {
-            samples[i].setRandomPosition();
+        for (Ball sample : samples) {
+            sample.resetToRandom();
         }
     }
 
@@ -97,7 +113,9 @@ public class CollisionsWindow extends AbstractWindow {
 
     @Override
     public Pane initAnimationPane() {
-        return new Pane(ctrlBall, samples[0], samples[1], samples[2]);
+        Pane result = new Pane(samples);
+        result.setPrefSize(paneWidth, paneHeight);
+        return result;
     }
     
 }

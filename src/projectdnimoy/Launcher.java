@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import projectdnimoy.others.AbstractWindow;
 import projectdnimoy.others.Cannon;
 import projectdnimoy.others.CollisionsWindow;
 
@@ -96,12 +97,15 @@ public class Launcher extends Application implements ConstantsInterface {
     }
     
     private void launchWindow(int subject, int choice) {
+        AbstractWindow w = null;
+        if(subject == MECH_ID)
+            if(choice == 1)
+                w = new CollisionsWindow();
+            else
+                w = new Cannon();
+        w.setMainMenu(primaryStage);
         try {
-            if(subject == MECH_ID)
-                if(choice == 1)
-                    new CollisionsWindow().start(new Stage());
-                else
-                    new Cannon().start(new Stage());
+            w.start(new Stage());
         } catch (Exception ex) {
             Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
         }
