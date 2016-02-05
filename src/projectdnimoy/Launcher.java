@@ -1,5 +1,7 @@
 package projectdnimoy;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -14,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import projectdnimoy.others.Cannon;
+import projectdnimoy.others.CollisionsWindow;
 
 public class Launcher extends Application implements ConstantsInterface {
     Stage primaryStage;
@@ -92,7 +96,15 @@ public class Launcher extends Application implements ConstantsInterface {
     }
     
     private void launchWindow(int subject, int choice) {
-        
+        try {
+            if(subject == MECH_ID)
+                if(choice == 1)
+                    new CollisionsWindow().start(new Stage());
+                else
+                    new Cannon().start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void main(String[] args) {
