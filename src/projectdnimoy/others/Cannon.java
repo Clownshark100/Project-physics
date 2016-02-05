@@ -23,7 +23,7 @@ public class Cannon extends AbstractWindow {
     }
     
     double h= 0, d=0, tet=0, v=0;
-    double t = runningTime();
+    double t = getRunningTime();
     final double G = 9.80665, MIN_H = 0, MIN_D =0;
     
     private double calculateHeight(double tet, double v, double t) {

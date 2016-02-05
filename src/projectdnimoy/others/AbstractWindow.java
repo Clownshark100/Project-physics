@@ -5,14 +5,15 @@
  */
 package projectdnimoy.others;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -33,17 +34,19 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     public abstract Pane initAnimationPane();
     
     private final SimpleStringProperty title = new SimpleStringProperty();
-    private final LineChart chart;
+    private final ScatterChart chart;
     private final XYChart.Series mainSeries;
     private Stage mainMenu;
     private boolean running;
     private long lastNanoTime;
-    private double totalRunningTime = 0;
+    private double runningTime = 0;
     protected Timer t = new Timer();
+    private ArrayList<XYChart.Data> pointsList = new ArrayList<>();
     
     public AbstractWindow() {
         this.running = false;
-        chart = new LineChart(new NumberAxis(), new NumberAxis());
+        chart = new ScatterChart(new NumberAxis(), new NumberAxis());
+        chart.setPrefHeight(200);
         mainSeries = new XYChart.Series();
         chart.getData().add(mainSeries);
     }
@@ -75,7 +78,10 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
             mainMenu.show();
             primaryStage.hide();
         });
-        reset.setOnAction((ActionEvent e)->resetVariables());
+        reset.setOnAction((ActionEvent e)->{
+            resetVariables();
+            chart.getData().clear();
+        });
         help.setOnAction((ActionEvent e)->JOptionPane.showMessageDialog(null, helpMessage(), 
                 HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE));
         playPause.setOnAction((ActionEvent e)->{
@@ -89,8 +95,9 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                 case PAUSE_TEXT:
                     playPause.setText(PLAY_TEXT);
                     running = false;
-                    totalRunningTime += runningTime();
                     pauseAnimations();
+                    mainSeries.getData().addAll(pointsList);
+                    pointsList.clear();
                     break;
             }
         });
@@ -118,25 +125,24 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     }
     
     public void addPoint(double time, double value) {
-        mainSeries.getData().add(new XYChart.Data(time, value));
+        pointsList.add(new XYChart.Data(time, value));
     }
     
     public boolean isRunning() {
         return running;
     }
     
-    public double runningTime() {
-        totalRunningTime+=deltaTime();
-        return totalRunningTime;
+    public double getRunningTime() {
+        return runningTime;
     }
     
     public double deltaTime() {
-        long newTime = System.nanoTime();
-        double delta = (newTime-lastNanoTime)/Math.pow(10, 9);
+        double delta = (double)(System.nanoTime()-lastNanoTime)/Math.pow(10, 9);
         return delta;
     }
     
     public void nextFrame() {
+        runningTime+=deltaTime();
         lastNanoTime = System.nanoTime();
     }
 }

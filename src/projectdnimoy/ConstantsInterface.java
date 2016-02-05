@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 public interface ConstantsInterface {
     int MECH_ID = 0, WAVES_ID = 1, ENM_ID = 2;
-    int width = 1280, height = 720;
+    int width = 800, height = 600;
     
     String[] SUBJECTS = new String[]{" MECHANICS ", "WAVES AND OPTICS ", "ELECTRICITY AND\n  MAGNETISM "};
     String[][] TOPICS = new String[][]{{"2D Ballistics", "Collisions and\n Momentum"},

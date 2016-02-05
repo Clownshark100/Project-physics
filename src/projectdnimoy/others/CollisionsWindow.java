@@ -27,10 +27,6 @@ public class CollisionsWindow extends AbstractWindow {
             resetToRandom();
         }
         
-        public Ball(int centerX, int centerY, int radius) {
-            super(centerX, centerY, radius, Color.BLACK);
-        }
-        
         public void update() {
             setPosition(getCenterX()+vel.getX()*deltaTime(), 
                     getCenterY()+vel.getY()*deltaTime());
@@ -40,7 +36,7 @@ public class CollisionsWindow extends AbstractWindow {
                 vel.setY(-vel.getY());
             for(Ball b : samples)
                 if(b!=this)
-                    if(getBoundsInParent().intersects(b.getBoundsInParent()))
+                    if(intersects(b))
                         transferMomentum(b);
         }
         
@@ -49,10 +45,14 @@ public class CollisionsWindow extends AbstractWindow {
             setCenterY(y);
         }
         
+        public Vector2 getPosition() {
+            return new Vector2(getCenterX(), getCenterY());
+        }
+        
         public void resetToRandom() {
             setCenterX(new Random().nextInt(paneWidth));
             setCenterY(new Random().nextInt(paneHeight));
-            vel = new Vector2(new Random().nextInt(50)-25, new Random().nextInt(50)-25);
+            vel = new Vector2(new Random().nextInt(70)-35, new Random().nextInt(70)-35);
         }
 
 	public void transferMomentum(Ball other){
@@ -71,8 +71,12 @@ public class CollisionsWindow extends AbstractWindow {
 		other.vel.setX(Math.cos(theta)*final_x2+Math.cos(theta+Math.PI/2)*new_y2);
 		other.vel.setY(Math.sin(theta)*final_x2+Math.sin(theta+Math.PI/2)*new_y2);
 	}
+
+        private boolean intersects(Ball b) {
+            return b.getPosition().sub(getPosition()).getMagnitude()<=b.getRadius()+getRadius();
+        }
     }
-    Ball[] samples = new Ball[4];
+    Ball[] samples = new Ball[15];
     int paneWidth = width, paneHeight = height-200;
     
     public CollisionsWindow() {
@@ -80,13 +84,16 @@ public class CollisionsWindow extends AbstractWindow {
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(isRunning())
+                if(isRunning()) {
                     for(Ball b : samples)
                         b.update();
-                nextFrame();
+                    addPoint(getRunningTime(), samples[0].vel.getMagnitude());
+                    nextFrame();
+                }
             }
         }, 1000, 25);
         for(int i = 0; i<samples.length; i++) samples[i] = new Ball(15);
+        samples[0].setFill(Color.RED);
     }
     
     @Override

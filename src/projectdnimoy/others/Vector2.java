@@ -32,9 +32,16 @@ public class Vector2 {
     public double getX() {return x;}
     public double getY() {return y;}
     
-    public void addVector(Vector2 v) {
+    public Vector2 add(Vector2 v) {
         this.x+=v.x;
         this.y+=v.y;
+        return this;
+    }
+    
+    public Vector2 sub(Vector2 v) {
+        this.x-=v.x;
+        this.y-=v.y;
+        return this;
     }
     
     public void scale(double scale) {

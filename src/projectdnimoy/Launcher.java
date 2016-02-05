@@ -103,9 +103,10 @@ public class Launcher extends Application implements ConstantsInterface {
                 w = new CollisionsWindow();
             else
                 w = new Cannon();
-        w.setMainMenu(primaryStage);
         try {
+            w.setMainMenu(primaryStage);
             w.start(new Stage());
+            primaryStage.hide();
         } catch (Exception ex) {
             Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
         }
