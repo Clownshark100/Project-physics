@@ -6,6 +6,7 @@
 package projectdnimoy.others;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
@@ -40,6 +41,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     private long lastNanoTime;
     private double runningTime = 0;
     protected Timer t = new Timer();
+    protected Random r = new Random();
     private ArrayList<XYChart.Data> pointsList = new ArrayList<>();
     
     public AbstractWindow() {
@@ -79,7 +81,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         });
         reset.setOnAction((ActionEvent e)->{
             resetVariables();
-            chart.getData().clear();
+            mainSeries.getData().clear();
         });
         help.setOnAction((ActionEvent e)->JOptionPane.showMessageDialog(null, helpMessage(), 
                 HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE));

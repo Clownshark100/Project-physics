@@ -16,6 +16,8 @@ public interface ConstantsInterface {
     String HELP_TEXT = "Help", DONE_TEXT = "Done", RESET_TEXT = "Reset", PLAY_TEXT = "Play", PAUSE_TEXT = "Pause";
     double[] xSubPosition = new double[]{100 , 320 , 540};
     double[] ySubPosition = new double[]{10 , 130 , 260};
+    int paneWidth = width, paneHeight = height-200;
+    double G = 9.80665;
     
    
 }

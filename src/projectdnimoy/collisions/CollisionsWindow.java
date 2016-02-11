@@ -5,7 +5,6 @@
  */
 package projectdnimoy.collisions;
 
-import java.util.Random;
 import java.util.TimerTask;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -52,9 +51,9 @@ public class CollisionsWindow extends AbstractWindow {
         }
         
         public void resetToRandom() {
-            setCenterX(new Random().nextInt(paneWidth));
-            setCenterY(new Random().nextInt(paneHeight));
-            vel = new Vector2(new Random().nextInt(70)-35, new Random().nextInt(70)-35);
+            setCenterX(r.nextInt(paneWidth));
+            setCenterY(r.nextInt(paneHeight));
+            vel = new Vector2(r.nextInt(70)-35, r.nextInt(70)-35);
         }
 
 	public void transferMomentum(Ball other){
@@ -79,7 +78,6 @@ public class CollisionsWindow extends AbstractWindow {
         }
     }
     Ball[] balls = new Ball[15];
-    int paneWidth = width, paneHeight = height-200;
     
     public CollisionsWindow() {
         setTitle("Collisions Simulation");

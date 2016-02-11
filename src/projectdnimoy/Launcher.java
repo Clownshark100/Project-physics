@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import projectdnimoy.others.AbstractWindow;
 import projectdnimoy.balistics.Cannon;
 import projectdnimoy.collisions.CollisionsWindow;
+import projectdnimoy.pendulum.PendulumWindow;
 
 public class Launcher extends Application implements ConstantsInterface {
     Stage primaryStage;
@@ -99,11 +100,11 @@ public class Launcher extends Application implements ConstantsInterface {
     
     private void launchWindow(int subject, int choice) {
         AbstractWindow w = null;
-        if(subject == MECH_ID)
-            if(choice == 1)
-                w = new CollisionsWindow();
-            else
-                w = new Cannon();
+        switch(subject) {
+        case MECH_ID:if(choice == 1) w = new CollisionsWindow();
+                     else w = new Cannon(); break;
+        case WAVES_ID:if(choice == 1) w=new PendulumWindow(); break;
+        }
         try {
             w.setMainMenu(primaryStage);
             w.start(new Stage());
