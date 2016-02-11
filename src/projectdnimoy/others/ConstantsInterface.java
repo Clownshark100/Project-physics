@@ -1,4 +1,4 @@
-package projectdnimoy;
+package projectdnimoy.others;
 
 import javafx.scene.paint.Color;
 

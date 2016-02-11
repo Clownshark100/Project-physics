@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projectdnimoy.others;
+package projectdnimoy.collisions;
 
 import java.util.Random;
 import java.util.TimerTask;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import projectdnimoy.others.AbstractWindow;
+import projectdnimoy.others.Vector2;
 
 /**
  *
@@ -34,7 +36,7 @@ public class CollisionsWindow extends AbstractWindow {
                 vel.setX(-vel.getX());
             else if (getCenterY()<getRadius() || getCenterY()>paneHeight-getRadius())
                 vel.setY(-vel.getY());
-            for(Ball b : samples)
+            for(Ball b : balls)
                 if(b!=this)
                     if(intersects(b))
                         transferMomentum(b);
@@ -76,7 +78,7 @@ public class CollisionsWindow extends AbstractWindow {
             return b.getPosition().sub(getPosition()).getMagnitude()<=b.getRadius()+getRadius();
         }
     }
-    Ball[] samples = new Ball[15];
+    Ball[] balls = new Ball[15];
     int paneWidth = width, paneHeight = height-200;
     
     public CollisionsWindow() {
@@ -85,20 +87,20 @@ public class CollisionsWindow extends AbstractWindow {
             @Override
             public void run() {
                 if(isRunning()) {
-                    for(Ball b : samples)
+                    for(Ball b : balls)
                         b.update();
-                    addPoint(getRunningTime(), samples[0].vel.getMagnitude());
+                    addPoint(getRunningTime(), balls[0].vel.getMagnitude());
                     nextFrame();
                 }
             }
         }, 1000, 25);
-        for(int i = 0; i<samples.length; i++) samples[i] = new Ball(15);
-        samples[0].setFill(Color.RED);
+        for(int i = 0; i<balls.length; i++) balls[i] = new Ball(15);
+        balls[0].setFill(Color.RED);
     }
     
     @Override
     public void resetVariables() {
-        for (Ball sample : samples) {
+        for (Ball sample : balls) {
             sample.resetToRandom();
         }
     }
@@ -120,7 +122,7 @@ public class CollisionsWindow extends AbstractWindow {
 
     @Override
     public Pane initAnimationPane() {
-        Pane result = new Pane(samples);
+        Pane result = new Pane(balls);
         result.setPrefSize(paneWidth, paneHeight);
         return result;
     }

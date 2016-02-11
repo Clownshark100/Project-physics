@@ -1,5 +1,6 @@
 package projectdnimoy;
 
+import projectdnimoy.others.ConstantsInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -17,8 +18,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import projectdnimoy.others.AbstractWindow;
-import projectdnimoy.others.Cannon;
-import projectdnimoy.others.CollisionsWindow;
+import projectdnimoy.balistics.Cannon;
+import projectdnimoy.collisions.CollisionsWindow;
 
 public class Launcher extends Application implements ConstantsInterface {
     Stage primaryStage;

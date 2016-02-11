@@ -1,4 +1,4 @@
-package projectdnimoy.others;
+package projectdnimoy.balistics;
 
 import javafx.animation.RotateTransition;
 import javafx.animation.Transition;
@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import projectdnimoy.others.AbstractWindow;
 
 /**
  *
@@ -76,7 +77,7 @@ public class Cannon extends AbstractWindow {
     }
 
     private class cannonClass {
-       Image image = new Image("projectDNIMOY/others/cannon.png");
+       Image image = new Image("projectDNIMOY/balistics/cannon.png");
        StackPane view;
        ImageView iv;
        RotateTransition trans = new RotateTransition();
