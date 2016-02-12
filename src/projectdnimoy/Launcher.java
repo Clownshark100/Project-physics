@@ -18,7 +18,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import projectdnimoy.others.AbstractWindow;
-import projectdnimoy.balistics.Cannon;
+import projectdnimoy.balistics.CannonWindow;
 import projectdnimoy.collisions.CollisionsWindow;
 import projectdnimoy.pendulum.PendulumWindow;
 
@@ -102,7 +102,7 @@ public class Launcher extends Application implements ConstantsInterface {
         AbstractWindow w = null;
         switch(subject) {
         case MECH_ID:if(choice == 1) w = new CollisionsWindow();
-                     else w = new Cannon(); break;
+                     else w = new CannonWindow(); break;
         case WAVES_ID:if(choice == 1) w=new PendulumWindow(); break;
         }
         try {

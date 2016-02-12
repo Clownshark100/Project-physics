@@ -6,6 +6,7 @@
 package projectdnimoy.collisions;
 
 import java.util.TimerTask;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -51,8 +52,8 @@ public class CollisionsWindow extends AbstractWindow {
         }
         
         public void resetToRandom() {
-            setCenterX(r.nextInt(paneWidth));
-            setCenterY(r.nextInt(paneHeight));
+            setCenterX(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius());
+            setCenterY(r.nextInt(paneHeight-(int)getRadius()*2)+(int)getRadius());
             vel = new Vector2(r.nextInt(70)-35, r.nextInt(70)-35);
         }
 
@@ -77,23 +78,22 @@ public class CollisionsWindow extends AbstractWindow {
             return b.getPosition().sub(getPosition()).getMagnitude()<=b.getRadius()+getRadius();
         }
     }
-    Ball[] balls = new Ball[15];
+    private Ball[] balls = new Ball[10];
     
     public CollisionsWindow() {
-        setTitle("Collisions Simulation");
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(isRunning()) {
-                    for(Ball b : balls)
-                        b.update();
-                    addPoint(getRunningTime(), balls[0].vel.getMagnitude());
-                    nextFrame();
-                }
-            }
-        }, 1000, 25);
+        super("Collisions Simulation");
         for(int i = 0; i<balls.length; i++) balls[i] = new Ball(15);
         balls[0].setFill(Color.RED);
+    }
+
+    @Override
+    protected void addPoint() {
+        addPoint(getRunningTime(), balls[0].vel.getMagnitude());
+    }
+    
+    @Override
+    public void update() {
+        for(Ball b : balls) b.update();
     }
     
     @Override

@@ -6,6 +6,7 @@
 package projectdnimoy.pendulum;
 
 import java.util.TimerTask;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -23,20 +24,15 @@ public class PendulumWindow extends AbstractWindow {
     private Circle mass = new Circle(20);
      
     public PendulumWindow() {
-        setTitle("Collisions Simulation");
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(isRunning()) {
-                    update();
-                    addPoint(getRunningTime(), getTheta());
-                    nextFrame();
-                }
-            }
-        }, 1000, 25);
+        super("Collisions Simulation");
         thread.setStartX(paneWidth/2);
         thread.setStartY(paneHeight/2);
         resetVariables();
+    }
+    
+    @Override
+    protected void addPoint() {
+        addPoint(getRunningTime(), getTheta());
     }
     
     private double getTheta() {
@@ -44,7 +40,7 @@ public class PendulumWindow extends AbstractWindow {
     }
     
     public void update() {
-        Vector2 v = Vector2.fromPolar(length*Math.min(paneHeight, paneWidth)/2-10, Math.toRadians(getTheta()+90));
+        Vector2 v = Vector2.fromPolar(length*Math.min(paneHeight, paneWidth)/9-10, Math.toRadians(getTheta()+90));
         thread.setEndX(thread.getStartX()+v.getX());
         thread.setEndY(thread.getStartY()+v.getY());
         mass.setCenterX(thread.getEndX());
@@ -54,7 +50,7 @@ public class PendulumWindow extends AbstractWindow {
     @Override
     public void resetVariables() {
         startTheta = r.nextInt(358)-189;
-        length = r.nextDouble();
+        length = (r.nextDouble()+0.5)*3;
         omega = Math.sqrt(G/length);
         update();
     }
