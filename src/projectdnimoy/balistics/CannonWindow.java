@@ -11,6 +11,7 @@ import projectdnimoy.others.AbstractWindow;
  */
 public class CannonWindow extends AbstractWindow {
     CannonBall c = new CannonBall();
+    CannonBody b = new CannonBody();
     
     public CannonWindow(){
         super(TOPICS[MECH_ID][0]);
@@ -42,12 +43,15 @@ public class CannonWindow extends AbstractWindow {
     public void resetVariables() {
       tet = 20+r.nextDouble()*50;
       v = 40+r.nextDouble()*60;
-      update();
+      b.setX(0);
+      b.setY(paneHeight-32);
+      b.setRotate(-tet);
+      c.setPosition(16, paneHeight-32);
     }
 
     @Override
     public Pane initAnimationPane() {
-       Pane anim = new Pane(c);
+       Pane anim = new Pane(c, b);
        //anim.setPadding(new Insets(400)); <-- wow.
        anim.setPrefSize(paneWidth, paneHeight);
              
@@ -67,7 +71,7 @@ public class CannonWindow extends AbstractWindow {
 
     @Override
     public void update() {
-        c.setPosition(calculateDistance()+16, paneHeight-16-calculateHeight());
+        c.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
     }
 
     private class CannonBall extends ImageView {
@@ -80,5 +84,11 @@ public class CannonWindow extends AbstractWindow {
            setX(x);
            setY(y);
        }
-    }   
+    }
+    
+    private class CannonBody extends ImageView {
+        CannonBody() {
+            super(new Image("projectdnimoy/balistics/cannon.png"));
+        }
+    }
 }
