@@ -104,16 +104,6 @@ public class CollisionsWindow extends AbstractWindow {
     }
 
     @Override
-    public void pauseAnimations() {
-        
-    }
-
-    @Override
-    public void playAnimations() {
-        
-    }
-
-    @Override
     public String helpMessage() {
         return "Collisions Help";
     }

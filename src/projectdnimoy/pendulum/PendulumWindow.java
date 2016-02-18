@@ -56,16 +56,6 @@ public class PendulumWindow extends AbstractWindow {
     }
 
     @Override
-    public void pauseAnimations() {
-        
-    }
-
-    @Override
-    public void playAnimations() {
-        
-    }
-
-    @Override
     public String helpMessage() {
         return "Help for Pendulum";
     }

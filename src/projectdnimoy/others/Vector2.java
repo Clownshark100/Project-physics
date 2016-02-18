@@ -44,9 +44,10 @@ public class Vector2 {
         return this;
     }
     
-    public void scale(double scale) {
+    public Vector2 scale(double scale) {
         this.x*=scale;
         this.y*=scale;
+        return this;
     }
 
     public double getMagnitude(){
@@ -59,5 +60,10 @@ public class Vector2 {
     
     public static Vector2 fromPolar(double mag, double dir) {
         return new Vector2(mag*Math.cos(dir), mag*Math.sin(dir));
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Vector2[%.3f, %.3f]", x, y);
     }
 }

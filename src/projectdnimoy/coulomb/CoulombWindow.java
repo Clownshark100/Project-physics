@@ -6,8 +6,9 @@
 package projectdnimoy.coulomb;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import projectdnimoy.others.AbstractWindow;
+import projectdnimoy.others.*;
 
 /**
  *
@@ -15,31 +16,34 @@ import projectdnimoy.others.AbstractWindow;
  */
 public class CoulombWindow extends AbstractWindow {
     Charge[] array = new Charge[4];
+    Vector2 zeroVel = new Vector2(), zeroPos;
     
     public CoulombWindow() {
         super(TOPICS[ENM_ID][0]);
-        for(int i = 0; i<4; i++) array[i] = new Charge();
-        resetVariables();
+        for(int i = 0; i<4; i++) array[i] = new Charge(10);
+        zeroPos = new Vector2(array[0].getCenterX(), array[0].getCenterY());
+        array[0].setFill(Color.RED);
+    }
+    
+    private Vector2 totalFieldAtZero() {
+        Vector2 test = new Vector2(array[0].getCenterX(), array[0].getCenterY());
+        Vector2 sum = new Vector2();
+        for(int i = 1; i<array.length; i++) sum.add(array[i].fieldAt(test));
+        return sum;
     }
 
     @Override
     protected void addPoint() {
-        
+        addPoint(getRunningTime(), zeroVel.getMagnitude());
     }
 
     @Override
     public void resetVariables() {
         for(Charge c : array) c.resetToRandom();
-    }
-
-    @Override
-    public void pauseAnimations() {
-        
-    }
-
-    @Override
-    public void playAnimations() {
-        
+        zeroPos.setX(array[0].getCenterX());
+        zeroPos.setY(array[0].getCenterY());
+        zeroVel.setX(0);
+        zeroVel.setY(0);
     }
 
     @Override
@@ -51,18 +55,36 @@ public class CoulombWindow extends AbstractWindow {
     public Pane initAnimationPane() {
        Pane anim = new Pane(array);
        anim.setPrefSize(paneWidth, paneHeight);
-             
        return anim; 
     }
 
     @Override
     public void update() {
-        
+        Vector2 acc = totalFieldAtZero().scale(array[0].charge*deltaTime()); //divided by mass
+        zeroVel.add(acc);
+        zeroPos.add(zeroVel);
+        array[0].setCenterX(zeroPos.getX());
+        array[0].setCenterY(zeroPos.getY());
     }
     
     private class Charge extends Circle {
+        byte charge;
+        
+        Charge(int radius) {
+            super(radius, Color.BLACK);
+            resetToRandom();
+        }
+        
         public void resetToRandom() {
-            
+            setCenterX(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius());
+            setCenterY(r.nextInt(paneHeight-(int)getRadius()*2)+(int)getRadius());
+            charge = (byte) (r.nextInt(11) - 5);
+        }
+        
+        public Vector2 fieldAt(Vector2 test) {
+            Vector2 result = new Vector2(getCenterX(), getCenterY()).sub(test);
+            result.scale(-K*charge*Math.pow(10, -6)/Math.pow(result.getMagnitude(), 3));
+            return result;
         }
     }
 }

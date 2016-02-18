@@ -18,17 +18,7 @@ public class LensWindow extends AbstractWindow {
     public LensWindow(){
         super(TOPICS[WAVES_ID][2]);
         resetVariables();
-    }
-     
-    @Override
-    public void pauseAnimations() {
-        
-    }
-    
-    @Override
-    public void playAnimations() {
-        
-    }    
+    }   
     
     @Override
     public void resetVariables() {

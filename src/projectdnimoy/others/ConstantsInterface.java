@@ -17,7 +17,7 @@ public interface ConstantsInterface {
     double[] xSubPosition = new double[]{100 , 320 , 540};
     double[] ySubPosition = new double[]{10 , 130 , 260};
     int paneWidth = width, paneHeight = height-200;
-    double G = 9.80665;
+    double G = 9.80665, K = 8.987551E9;
     
    
 }

@@ -1,5 +1,6 @@
 package projectdnimoy.balistics;
 
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -8,6 +9,7 @@ import projectdnimoy.others.AbstractWindow;
 /**
  *
  * @author Olex Yasinovskyy
+ * @author Ivan Miloslavov
  */
 public class CannonWindow extends AbstractWindow {
     CannonBall c = new CannonBall();
@@ -28,16 +30,6 @@ public class CannonWindow extends AbstractWindow {
     private double calculateDistance() {
         return v*getRunningTime()*Math.cos(Math.toRadians(tet));
     }
-        
-    @Override
-    public void pauseAnimations() {
-        
-    }
-    
-    @Override
-    public void playAnimations() {
-        
-    }    
     
     @Override
     public void resetVariables() {
@@ -72,6 +64,7 @@ public class CannonWindow extends AbstractWindow {
     @Override
     public void update() {
         c.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
+        if(calculateHeight()<0) pauseRunning();
     }
 
     private class CannonBall extends ImageView {
