@@ -6,6 +6,7 @@
 package projectdnimoy.coulomb;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import projectdnimoy.others.AbstractWindow;
 
 /**
@@ -13,9 +14,11 @@ import projectdnimoy.others.AbstractWindow;
  * @author cstuser
  */
 public class CoulombWindow extends AbstractWindow {
-
+    Charge[] array = new Charge[4];
+    
     public CoulombWindow() {
         super(TOPICS[ENM_ID][0]);
+        for(int i = 0; i<4; i++) array[i] = new Charge();
         resetVariables();
     }
 
@@ -26,7 +29,7 @@ public class CoulombWindow extends AbstractWindow {
 
     @Override
     public void resetVariables() {
-        
+        for(Charge c : array) c.resetToRandom();
     }
 
     @Override
@@ -46,7 +49,7 @@ public class CoulombWindow extends AbstractWindow {
 
     @Override
     public Pane initAnimationPane() {
-       Pane anim = new Pane();
+       Pane anim = new Pane(array);
        anim.setPrefSize(paneWidth, paneHeight);
              
        return anim; 
@@ -57,4 +60,9 @@ public class CoulombWindow extends AbstractWindow {
         
     }
     
+    private class Charge extends Circle {
+        public void resetToRandom() {
+            
+        }
+    }
 }
