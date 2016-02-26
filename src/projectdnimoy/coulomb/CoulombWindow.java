@@ -78,7 +78,7 @@ public class CoulombWindow extends AbstractWindow {
         public void resetToRandom() {
             setCenterX(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius());
             setCenterY(r.nextInt(paneHeight-(int)getRadius()*2)+(int)getRadius());
-            charge = (byte) (r.nextInt(11) - 5);
+            charge = (byte) (r.nextInt(7) - 3);
         }
         
         public Vector2 fieldAt(Vector2 test) {
