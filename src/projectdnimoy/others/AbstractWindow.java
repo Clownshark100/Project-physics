@@ -39,6 +39,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     private double runningTime = 0;
     protected Timer t = new Timer();
     protected Random r = new Random();
+    private Button playPause;
     
     public AbstractWindow(String title) {
         this.running = false;
@@ -79,14 +80,16 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         Scene scene = new Scene(root, width, height);
         
         primaryStage.setTitle(getTitle());
+        primaryStage.setOnCloseRequest(e -> {Platform.exit(); System.exit(0);});
         primaryStage.setScene(scene);
         primaryStage.show();
     }
     
     GridPane initButtonPane(Stage primaryStage) {
         GridPane result = new GridPane();
-        Button playPause = new Button(PLAY_TEXT), done = new Button(DONE_TEXT), reset = new Button(RESET_TEXT),
+        Button done = new Button(DONE_TEXT), reset = new Button(RESET_TEXT),
                 help = new Button(HELP_TEXT);
+                playPause = new Button(PLAY_TEXT);
         done.setOnAction((ActionEvent e)->{
             running = false;
             mainMenu.show();
@@ -147,7 +150,8 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     }
     
     public void pauseRunning() {
-        running = false;
+        if (playPause.getText().equals(PAUSE_TEXT))
+            playPause.fire();
     }
     
     public double getRunningTime() {

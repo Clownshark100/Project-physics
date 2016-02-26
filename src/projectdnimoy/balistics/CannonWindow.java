@@ -1,9 +1,11 @@
 package projectdnimoy.balistics;
 
+import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import projectdnimoy.others.AbstractWindow;
 
 /**
@@ -14,6 +16,8 @@ import projectdnimoy.others.AbstractWindow;
 public class CannonWindow extends AbstractWindow {
     CannonBall c = new CannonBall();
     CannonBody b = new CannonBody();
+    CannonSmoke s = new CannonSmoke();
+    boolean isFirst = true;
     
     public CannonWindow(){
         super(TOPICS[MECH_ID][0]);
@@ -23,12 +27,12 @@ public class CannonWindow extends AbstractWindow {
     double tet=0, v=0;
     
     private double calculateHeight() {
-        double t = getRunningTime();
+        double t = getRunningTime()*2;
        return Math.sin(Math.toRadians(tet))*v*t - G*0.5*Math.pow(t, 2);
     }
     
     private double calculateDistance() {
-        return v*getRunningTime()*Math.cos(Math.toRadians(tet));
+        return v*getRunningTime()*Math.cos(Math.toRadians(tet))*2;
     }
     
     @Override
@@ -39,12 +43,13 @@ public class CannonWindow extends AbstractWindow {
       b.setY(paneHeight-32);
       b.setRotate(-tet);
       c.setPosition(16, paneHeight-32);
+      s.setX(27);
+      s.setY(paneHeight-75);
     }
 
     @Override
     public Pane initAnimationPane() {
-       Pane anim = new Pane(c, b);
-       //anim.setPadding(new Insets(400)); <-- wow.
+       Pane anim = new Pane(c, b, s);
        anim.setPrefSize(paneWidth, paneHeight);
              
        return anim; 
@@ -65,10 +70,19 @@ public class CannonWindow extends AbstractWindow {
     public void update() {
         c.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
         if(calculateHeight()<0) pauseRunning();
+        if (isFirst = true) {
+          /*  FadeTransition ft = new FadeTransition(Duration.millis(3000), s);
+             ft.setFromValue(0.0);
+             ft.setToValue(1.0);
+             ft.setCycleCount(2);
+             ft.setAutoReverse(true);
+            ft.play(); */
+            isFirst = false; 
+        }
     }
 
     private class CannonBall extends ImageView {
-       
+        
        CannonBall() {
            super(new Image("projectdnimoy/balistics/cannonBall.png"));
        }
@@ -82,6 +96,12 @@ public class CannonWindow extends AbstractWindow {
     private class CannonBody extends ImageView {
         CannonBody() {
             super(new Image("projectdnimoy/balistics/cannon.png"));
+        }
+    }
+    
+    private class CannonSmoke extends ImageView {
+        CannonSmoke () {
+            super(new Image("projectdnimoy/balistics/cannonSmoke.png"));
         }
     }
 }
