@@ -5,8 +5,6 @@
  */
 package projectdnimoy.pendulum;
 
-import java.util.TimerTask;
-import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -39,6 +37,7 @@ public class PendulumWindow extends AbstractWindow {
         return startTheta*Math.cos(getRunningTime()*omega);
     }
     
+    @Override
     public void update() {
         Vector2 v = Vector2.fromPolar(length*Math.min(paneHeight, paneWidth)/9-10, Math.toRadians(getTheta()+90));
         thread.setEndX(thread.getStartX()+v.getX());
