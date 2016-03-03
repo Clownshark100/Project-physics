@@ -1,7 +1,6 @@
 package projectdnimoy.balistics;
 
 import javafx.animation.FadeTransition;
-import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -9,7 +8,6 @@ import javafx.util.Duration;
 import projectdnimoy.others.AbstractWindow;
 
 /**
- *
  * @author Olex Yasinovskyy
  * @author Ivan Miloslavov
  */
@@ -37,14 +35,15 @@ public class CannonWindow extends AbstractWindow {
     
     @Override
     public void resetVariables() {
-      tet = 20+r.nextDouble()*50;
+      tet = 30+r.nextDouble()*40;
       v = 40+r.nextDouble()*60;
       b.setX(0);
       b.setY(paneHeight-32);
       b.setRotate(-tet);
       c.setPosition(16, paneHeight-32);
       s.setX(27);
-      s.setY(paneHeight-75);
+      s.setY(paneHeight-80);
+      isFirst = true;
     }
 
     @Override
@@ -70,15 +69,20 @@ public class CannonWindow extends AbstractWindow {
     public void update() {
         c.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
         if(calculateHeight()<0) pauseRunning();
-        if (isFirst = true) {
-          /*  FadeTransition ft = new FadeTransition(Duration.millis(3000), s);
+    }
+
+    @Override
+    public void onPlayClick() {
+         if (isFirst) {
+             FadeTransition ft = new FadeTransition(Duration.millis(200), s);
+             s.setVisible(true);
              ft.setFromValue(0.0);
              ft.setToValue(1.0);
              ft.setCycleCount(2);
              ft.setAutoReverse(true);
-            ft.play(); */
+            ft.play();
             isFirst = false; 
-        }
+         }
     }
 
     private class CannonBall extends ImageView {
@@ -102,6 +106,7 @@ public class CannonWindow extends AbstractWindow {
     private class CannonSmoke extends ImageView {
         CannonSmoke () {
             super(new Image("projectdnimoy/balistics/cannonSmoke.png"));
+            setVisible(false);
         }
     }
 }

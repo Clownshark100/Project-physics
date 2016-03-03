@@ -98,9 +98,11 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
             primaryStage.hide();
         });
         reset.setOnAction((ActionEvent e)->{
+            playPause.fire();
             resetVariables();
             mainSeries.getData().clear();
             runningTime = 0;
+            playPause.fire();
         });
         help.setOnAction((ActionEvent e)->{
             playPause.fire();
@@ -113,6 +115,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                     playPause.setText(PAUSE_TEXT);
                     lastNanoTime = System.nanoTime();
                     running = true;
+                    onPlayClick();
                     break;
                 case PAUSE_TEXT:
                     playPause.setText(PLAY_TEXT);
@@ -175,4 +178,5 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     public abstract String helpMessage();
     public abstract Pane initAnimationPane();
     public abstract void update();
+    public abstract void onPlayClick();
 }

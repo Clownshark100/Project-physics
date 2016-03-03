@@ -66,6 +66,11 @@ public class CoulombWindow extends AbstractWindow {
         array[0].setCenterX(zeroPos.getX());
         array[0].setCenterY(zeroPos.getY());
     }
+
+    @Override
+    public void onPlayClick() {
+        
+    }
     
     private class Charge extends Circle {
         byte charge;

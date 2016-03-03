@@ -65,5 +65,10 @@ public class PendulumWindow extends AbstractWindow {
         result.setPrefSize(paneWidth, paneHeight);
         return result;
     }
+
+    @Override
+    public void onPlayClick() {
+        
+    }
     
 }

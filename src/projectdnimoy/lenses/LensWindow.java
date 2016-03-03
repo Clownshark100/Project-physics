@@ -50,6 +50,11 @@ public class LensWindow extends AbstractWindow {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void onPlayClick() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private class Human extends ImageView {
 
          Human() {
