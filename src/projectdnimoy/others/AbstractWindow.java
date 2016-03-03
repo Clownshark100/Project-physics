@@ -51,8 +51,10 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
             @Override
             public void run() {
                 if(isRunning()) {
-                    update();
-                    nextFrame();
+                    Platform.runLater(()->{
+                        update();
+                        nextFrame();
+                    });
                 }
             }
         }, 1000, 25);

@@ -1,8 +1,6 @@
 package projectdnimoy;
 
 import projectdnimoy.others.ConstantsInterface;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -12,9 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import projectdnimoy.others.AbstractWindow;
@@ -32,7 +28,7 @@ public class Launcher extends Application implements ConstantsInterface {
         root.getChildren().add(getTopicPane(MECH_ID));
         root.getChildren().add(getTopicPane(WAVES_ID));
         root.getChildren().add(getTopicPane(ENM_ID));
-        Image i = new Image("projectdnimoy/Menu.jpg");
+        Image i = new Image("projectdnimoy/images/Menu.jpg");
         root.setBackground(new Background(new BackgroundImage(i
                 , BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT
                 , BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
@@ -114,7 +110,8 @@ public class Launcher extends Application implements ConstantsInterface {
             w.start(new Stage());
             primaryStage.hide();
         } catch (Exception ex) {
-            Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
+            System.exit(0);
         }
     }
     
