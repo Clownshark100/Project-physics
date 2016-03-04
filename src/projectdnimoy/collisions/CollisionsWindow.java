@@ -86,7 +86,7 @@ public class CollisionsWindow extends AbstractWindow {
     private Ball[] balls = new Ball[10];
     
     public CollisionsWindow() {
-        super("Collisions Simulation");
+        super(TOPICS[MECH_ID][1]);
         for(int i = 0; i<balls.length; i++) balls[i] = new Ball(15);
         balls[0].setFill(Color.RED);
     }

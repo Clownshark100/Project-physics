@@ -5,7 +5,6 @@
  */
 package projectdnimoy.others;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -66,6 +65,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                 }
             }
         }, 1000, 166);
+        setTitle(title);
     }
     
     public void setMainMenu(Stage mainMenu) {
@@ -100,8 +100,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         reset.setOnAction((ActionEvent e)->{
             playPause.fire();
             resetVariables();
-            mainSeries.getData().clear();
-            runningTime = 0;
+            resetChart();
             playPause.fire();
         });
         help.setOnAction((ActionEvent e)->{
@@ -171,6 +170,11 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     public void nextFrame() {
         runningTime+=deltaTime();
         lastNanoTime = System.nanoTime();
+    }
+    
+    public void resetChart() {
+        mainSeries.getData().clear();
+        runningTime = 0;
     }
     
     protected abstract void addPoint();

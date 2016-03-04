@@ -60,11 +60,24 @@ public class CoulombWindow extends AbstractWindow {
 
     @Override
     public void update() {
-        Vector2 acc = totalFieldAtZero().scale(array[0].charge*deltaTime()); //divided by mass
-        zeroVel.add(acc);
-        zeroPos.add(zeroVel);
-        array[0].setCenterX(zeroPos.getX());
-        array[0].setCenterY(zeroPos.getY());
+        if(outOfWindow()) {
+            array[0].resetToRandom();
+            zeroPos.setX(array[0].getCenterX());
+            zeroPos.setY(array[0].getCenterY());
+            zeroVel.setX(0);
+            zeroVel.setY(0);
+            resetChart();
+        } else {
+            Vector2 acc = totalFieldAtZero().scale(array[0].charge*deltaTime()); //divided by mass
+            zeroVel.add(acc);
+            zeroPos.add(zeroVel);
+            array[0].setCenterX(zeroPos.getX());
+            array[0].setCenterY(zeroPos.getY());
+        }
+    }
+    
+    private boolean outOfWindow() {
+        return zeroPos.getX()<0 || zeroPos.getX()>paneWidth || zeroPos.getY()<0 || zeroPos.getY()>paneHeight;
     }
 
     @Override
@@ -73,7 +86,7 @@ public class CoulombWindow extends AbstractWindow {
     }
     
     private class Charge extends Circle {
-        byte charge;
+        double charge;
         
         Charge(int radius) {
             super(radius, Color.BLACK);
@@ -83,7 +96,7 @@ public class CoulombWindow extends AbstractWindow {
         public void resetToRandom() {
             setCenterX(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius());
             setCenterY(r.nextInt(paneHeight-(int)getRadius()*2)+(int)getRadius());
-            charge = (byte) (r.nextInt(7) - 3);
+            charge = r.nextDouble()*6 - 3;
         }
         
         public Vector2 fieldAt(Vector2 test) {
