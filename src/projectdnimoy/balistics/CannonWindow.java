@@ -1,11 +1,14 @@
 package projectdnimoy.balistics;
 
 import javafx.animation.FadeTransition;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import projectdnimoy.others.AbstractWindow;
+import javafx.scene.input.MouseEvent;
+
 
 /**
  * @author Olex Yasinovskyy
@@ -21,7 +24,7 @@ public class CannonWindow extends AbstractWindow {
         super(TOPICS[MECH_ID][0]);
         resetVariables();
     }
-    
+   
     double tet=0, v=0;
     
     private double calculateHeight() {
@@ -53,7 +56,7 @@ public class CannonWindow extends AbstractWindow {
              
        return anim; 
     }
-
+    
     @Override
     public String helpMessage() {
         return "Click and drag the cannon to give it initial velocity and angle of shot. "
@@ -109,4 +112,21 @@ public class CannonWindow extends AbstractWindow {
             setVisible(false);
         }
     }
+    
+    EventHandler<MouseEvent> cannonPressedEventHandler = new EventHandler<MouseEvent>() {
+
+        @Override
+        public void handle(MouseEvent e) {
+           tet = Math.tan((b.getY()-e.getY())/(e.getX()-b.getX()));
+            b.setRotate(-tet);
+        }
+    };
+    
+    EventHandler<MouseEvent> cannonDraggedEventHandler = new EventHandler<MouseEvent>() {
+
+        @Override
+        public void handle(MouseEvent e) {
+            v=40*Math.sqrt(Math.pow(b.getY()-e.getY(),2)+Math.pow((e.getX()-b.getX()), 2));
+        }
+    };
 }
