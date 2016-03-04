@@ -88,7 +88,7 @@ public class CannonWindow extends AbstractWindow {
     private class CannonBall extends ImageView {
         
        CannonBall() {
-           super(new Image("projectdnimoy/balistics/cannonBall.png"));
+           super(new Image("projectdnimoy/images/cannonBall.png"));
        }
        
        public void setPosition(double x, double y) {
@@ -99,13 +99,13 @@ public class CannonWindow extends AbstractWindow {
     
     private class CannonBody extends ImageView {
         CannonBody() {
-            super(new Image("projectdnimoy/balistics/cannon.png"));
+            super(new Image("projectdnimoy/images/cannon.png"));
         }
     }
     
     private class CannonSmoke extends ImageView {
         CannonSmoke () {
-            super(new Image("projectdnimoy/balistics/cannonSmoke.png"));
+            super(new Image("projectdnimoy/images/cannonSmoke.png"));
             setVisible(false);
         }
     }
