@@ -18,11 +18,11 @@ import projectdnimoy.others.Vector2;
 public class PendulumWindow extends AbstractWindow {
 
     private double startTheta, omega, length;
-    private Line thread = new Line();
-    private Circle mass = new Circle(20);
+    private final Line thread = new Line();
+    private final Circle mass = new Circle(20);
      
     public PendulumWindow() {
-        super("Collisions Simulation");
+        super(TOPICS[WAVES_ID][1]);
         thread.setStartX(paneWidth/2);
         thread.setStartY(paneHeight/2);
         resetVariables();

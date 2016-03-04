@@ -18,10 +18,21 @@ public class LensWindow extends AbstractWindow {
     public LensWindow(){
         super(TOPICS[WAVES_ID][2]);
         resetVariables();
-    }   
+    }
+    double f = 50;
+    double o = 70;
     
-    @Override
+    private double calculateImage() {
+        return 1/(1/f - 1/o);  
+    }
+    
     public void resetVariables() {
+     convLens.setX(250);
+     convLens.setY(75);
+     object.setX(250-70);
+     object.setY(50);
+     image.setX(calculateImage());
+     image.setY(100);
      
       update();
     }
@@ -47,7 +58,9 @@ public class LensWindow extends AbstractWindow {
 
     @Override
     public Pane initAnimationPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pane anim = new Pane(object, convLens, image);
+       anim.setPrefSize(paneWidth, paneHeight);
+       return anim;
     }
 
     @Override
@@ -65,12 +78,15 @@ public class LensWindow extends AbstractWindow {
     private class ConvLens extends ImageView {
 
         ConvLens() {
-         super(new Image(""));
+         super(new Image("projectdnimoy/images/converLens.jpg"));
         }
         
-        public void setPosition(double x){
+        public void setPosition(double x,double y){
             setX(x);
+            setY(y);
         }
+        
+       
     }
 
     private class Witch extends ImageView {

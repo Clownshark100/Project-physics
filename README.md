@@ -9,6 +9,5 @@ Authors:
 
 Comments:
 * (Optional) Implement drag-and-click methods in AbstractWindow
-* (Optional) Modify dialogs to be JavaFX Popups
 * Use Zelda Faeries for charges (Bullet Bill for Cannon?)
 * Closer to end, work on optimisation and shift to interface constants

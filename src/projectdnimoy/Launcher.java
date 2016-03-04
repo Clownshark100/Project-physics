@@ -6,17 +6,18 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import projectdnimoy.others.AbstractWindow;
 import projectdnimoy.balistics.CannonWindow;
 import projectdnimoy.collisions.CollisionsWindow;
 import projectdnimoy.coulomb.CoulombWindow;
+import projectdnimoy.lenses.LensWindow;
 import projectdnimoy.pendulum.PendulumWindow;
 
 public class Launcher extends Application implements ConstantsInterface {
@@ -41,6 +42,9 @@ public class Launcher extends Application implements ConstantsInterface {
         exit.setTextFill(Color.WHITE);
         exit.setFont(Font.font(20));
         exit.setOnAction((ActionEvent event) -> {
+            Alert a = new Alert(Alert.AlertType.INFORMATION, ADIOS_MESSAGE);
+            a.setHeaderText(ADIOS_TITLE);
+            a.showAndWait();
             System.exit(0);
         }) ;
         root.getChildren().add(exit);
@@ -84,7 +88,8 @@ public class Launcher extends Application implements ConstantsInterface {
             b.setOnAction((ActionEvent e)->launchWindow(sub, num));
         } else {
             b = new Button(IN_CONS_TITLE);
-            b.setOnAction((ActionEvent e)->JOptionPane.showMessageDialog(null, IN_CONS_MESSAGE, IN_CONS_TITLE, JOptionPane.INFORMATION_MESSAGE));
+            /*JOptionPane.showMessageDialog(null, IN_CONS_MESSAGE, IN_CONS_TITLE, JOptionPane.INFORMATION_MESSAGE)*/
+            b.setOnAction((ActionEvent e)->new Alert(Alert.AlertType.WARNING, IN_CONS_MESSAGE).showAndWait());
         }
         b.setBorder(new Border(new BorderStroke(Color.STEELBLUE, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderStroke.DEFAULT_WIDTHS)));
         b.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -101,7 +106,7 @@ public class Launcher extends Application implements ConstantsInterface {
         case MECH_ID: if(choice == 1) w = new CollisionsWindow();
                       else w = new CannonWindow(); break;
         case WAVES_ID:if(choice == 1) w=new PendulumWindow(); 
-                      else {} break;
+                      else {w = new LensWindow();} break;
         case ENM_ID:  if(choice == 1) {} 
                       else w=new CoulombWindow(); break;
         }
