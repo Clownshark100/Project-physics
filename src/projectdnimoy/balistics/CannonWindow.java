@@ -2,6 +2,7 @@ package projectdnimoy.balistics;
 
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -15,10 +16,10 @@ import javafx.scene.input.MouseEvent;
  * @author Ivan Miloslavov
  */
 public class CannonWindow extends AbstractWindow {
-    CannonBall c = new CannonBall();
-    CannonBody b = new CannonBody();
+    CannonBall ball = new CannonBall();
+    CannonBody can = new CannonBody();
     CannonSmoke s = new CannonSmoke();
-    boolean isFirst = true;
+    boolean isFirst = false;
     
     public CannonWindow(){
         super(TOPICS[MECH_ID][0]);
@@ -40,10 +41,13 @@ public class CannonWindow extends AbstractWindow {
     public void resetVariables() {
       tet = 30+r.nextDouble()*40;
       v = 40+r.nextDouble()*60;
-      b.setX(0);
-      b.setY(paneHeight-32);
-      b.setRotate(-tet);
-      c.setPosition(16, paneHeight-32);
+      can.setX(0);
+      can.setY(paneHeight-32);
+      can.setRotate(-tet);
+      can.setCursor(Cursor.HAND);
+      can.setOnMousePressed(cannonPressedEventHandler);
+      can.setOnMouseDragged(cannonDraggedEventHandler);
+      ball.setPosition(16, paneHeight-32);
       s.setX(27);
       s.setY(paneHeight-80);
       isFirst = true;
@@ -51,7 +55,7 @@ public class CannonWindow extends AbstractWindow {
 
     @Override
     public Pane initAnimationPane() {
-       Pane anim = new Pane(c, b, s);
+       Pane anim = new Pane(ball, can, s);
        anim.setPrefSize(paneWidth, paneHeight);
              
        return anim; 
@@ -70,7 +74,7 @@ public class CannonWindow extends AbstractWindow {
 
     @Override
     public void update() {
-        c.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
+        ball.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
         if(calculateHeight()<0) pauseRunning();
     }
 
@@ -117,8 +121,8 @@ public class CannonWindow extends AbstractWindow {
 
         @Override
         public void handle(MouseEvent e) {
-           tet = Math.tan((b.getY()-e.getY())/(e.getX()-b.getX()));
-            b.setRotate(-tet);
+           tet = Math.atan2((can.getY()-e.getY()),(e.getX()-can.getX()));
+            can.setRotate(-tet);
         }
     };
     
@@ -126,7 +130,9 @@ public class CannonWindow extends AbstractWindow {
 
         @Override
         public void handle(MouseEvent e) {
-            v=40*Math.sqrt(Math.pow(b.getY()-e.getY(),2)+Math.pow((e.getX()-b.getX()), 2));
+            tet = Math.toDegrees(Math.atan2((can.getY()-e.getY()),(e.getX()-can.getX())));
+            can.setRotate(-tet);
+            v=Math.sqrt(Math.pow(can.getY()-e.getY(),2)+Math.pow((e.getX()-can.getX()), 2))/2;
         }
     };
 }
