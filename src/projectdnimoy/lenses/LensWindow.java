@@ -8,13 +8,13 @@ import static projectdnimoy.others.ConstantsInterface.TOPICS;
 
 /**
  *
- * @author Olex Yasinovskyy
+ * @author Daniel Nahum
  */
 public class LensWindow extends AbstractWindow {
     
-    Witch object = new Witch();
+    Witch image = new Witch();
     ConvLens convLens = new ConvLens();
-    Human image = new Human();
+    Human object = new Human();
     public LensWindow(){
         super(TOPICS[WAVES_ID][2]);
         resetVariables();
@@ -48,14 +48,13 @@ public class LensWindow extends AbstractWindow {
 
     @Override
     public void update() {
-       
+       image.setPosition(calculateImage(), 100);
     }
 
     @Override
     protected void addPoint() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       addPoint(getRunningTime(), calculateImage());
     }
-
     @Override
     public Pane initAnimationPane() {
         Pane anim = new Pane(object, convLens, image);
@@ -63,15 +62,16 @@ public class LensWindow extends AbstractWindow {
        return anim;
     }
 
-    @Override
+ 
     public void onPlayClick() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
     }
 
     private class Human extends ImageView {
 
          Human() {
-            super(new Image(""));
+            super(new Image("projectdnimoy/images/human.png"));
         }
     }
 
@@ -92,7 +92,7 @@ public class LensWindow extends AbstractWindow {
     private class Witch extends ImageView {
        
        Witch() {
-           super(new Image(""));
+           super(new Image("projectdnimoy/images/demon.png"));
        }
        
        public void setPosition(double x, double y) {
