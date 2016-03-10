@@ -33,7 +33,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     private final ScatterChart chart;
     private final XYChart.Series mainSeries;
     private Stage mainMenu;
-    private boolean running;
+    private boolean running, forcedPause;
     private long lastNanoTime;
     private double runningTime = 0;
     protected Timer t = new Timer();
@@ -98,13 +98,13 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
             primaryStage.hide();
         });
         reset.setOnAction((ActionEvent e)->{
-            playPause.fire();
+            if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
             resetVariables();
             resetChart();
             playPause.fire();
         });
         help.setOnAction((ActionEvent e)->{
-            playPause.fire();
+            if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
             JOptionPane.showMessageDialog(null, helpMessage(), HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
             playPause.fire();
         });
@@ -115,6 +115,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                     lastNanoTime = System.nanoTime();
                     running = true;
                     onPlayClick();
+                    forcedPause = false;
                     break;
                 case PAUSE_TEXT:
                     playPause.setText(PLAY_TEXT);
@@ -153,9 +154,14 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         return running;
     }
     
+    public boolean isForcedPause() {
+        return forcedPause;
+    }
+    
     public void pauseRunning() {
         if (playPause.getText().equals(PAUSE_TEXT))
             playPause.fire();
+        forcedPause = true;
     }
     
     public double getRunningTime() {

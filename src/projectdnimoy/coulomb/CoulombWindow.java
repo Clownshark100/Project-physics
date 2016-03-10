@@ -61,12 +61,7 @@ public class CoulombWindow extends AbstractWindow {
     @Override
     public void update() {
         if(outOfWindow()) {
-            array[0].resetToRandom();
-            zeroPos.setX(array[0].getCenterX());
-            zeroPos.setY(array[0].getCenterY());
-            zeroVel.setX(0);
-            zeroVel.setY(0);
-            resetChart();
+            pauseRunning();
         } else {
             Vector2 acc = totalFieldAtZero().scale(array[0].charge*deltaTime()); //divided by mass
             zeroVel.add(acc);
@@ -82,7 +77,14 @@ public class CoulombWindow extends AbstractWindow {
 
     @Override
     public void onPlayClick() {
-        
+        if(isForcedPause()) {
+            array[0].resetToRandom();
+            zeroPos.setX(array[0].getCenterX());
+            zeroPos.setY(array[0].getCenterY());
+            zeroVel.setX(0);
+            zeroVel.setY(0);
+            resetChart();
+        }
     }
     
     private class Charge extends Circle {
