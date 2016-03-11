@@ -4,9 +4,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import projectdnimoy.others.AbstractWindow;
-import static projectdnimoy.others.ConstantsInterface.K;
-import static projectdnimoy.others.ConstantsInterface.paneHeight;
-import static projectdnimoy.others.ConstantsInterface.paneWidth;
 import projectdnimoy.others.Vector2;
 
 /*
@@ -20,45 +17,50 @@ import projectdnimoy.others.Vector2;
  * @author Ivan Miloslavov
  */
 public class MagneticWindow extends AbstractWindow {
-    int wireX = 10;
+    int wireX = 20;
+    Charge c;
 
     public MagneticWindow() {
         super(TOPICS[ENM_ID][1]);
+        c = new Charge(5);
     }
 
     @Override
     protected void addPoint() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        addPoint(c.getCenterX()-c.start.getX(), c.start.getY()-c.getCenterY());
     }
 
     @Override
     public void resetVariables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        c.reset();
     }
 
     @Override
     public String helpMessage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Help for Magnetic";
     }
 
     @Override
     public Pane initAnimationPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pane result = new Pane(c);
+        result.setPrefSize(paneWidth, paneHeight);
+        return result;
     }
 
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        c.update();
+        if(c.vel.getMagnitude()>50) pauseRunning();
     }
 
     @Override
     public void onPlayClick() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     private class Charge extends Circle {
-        int charge = 1;
-        Vector2 vel = new Vector2();
+        int charge = 500, current = 1, mass = 1;
+        Vector2 vel = new Vector2(), start = new Vector2();
         
         Charge(int radius) {
             super(radius, Color.BLACK);
@@ -68,17 +70,22 @@ public class MagneticWindow extends AbstractWindow {
         public void reset() {
             setCenterX(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius());
             setCenterY(r.nextInt(paneHeight-(int)getRadius()*2)+(int)getRadius());
-            vel.setY(1);
-            vel.setX(0);
+            start.setX(getCenterX());
+            start.setY(getCenterY());
+            vel.setY(r.nextDouble()*2-1);
+            vel.setX(r.nextDouble()*2-1);
         }
         
         public void update() {
-            
+            vel.add(accAtPos().scale(deltaTime()));
+            setCenterX(getCenterX()+vel.getX());
+            setCenterY(getCenterY()+vel.getY());
         }
         
-        public Vector2 fieldAtPos() {
-            Vector2 result = new Vector2(getCenterY(), -getCenterX()+wireX);
-            result.scale(-K*charge*Math.pow(10, -6)/Math.pow(result.getMagnitude(), 3));
+        public Vector2 accAtPos() {
+            Vector2 result = new Vector2(-vel.getY(), vel.getX());
+            result.scale(charge*current/mass*vel.getMagnitude()/(getCenterX()-wireX));
+            System.out.println(result);
             return result;
         }
     }

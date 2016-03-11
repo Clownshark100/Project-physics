@@ -9,10 +9,10 @@ public interface ConstantsInterface {
     String[] SUBJECTS = new String[]{" MECHANICS ", "WAVES AND OPTICS ", "ELECTRICITY AND\n  MAGNETISM "};
     String[][] TOPICS = new String[][]{{"2D Ballistics", "Collisions and\n Momentum"},
                                         {"Geometrical\n Optics", "Pendulum\n Oscillation"},
-                                        {"Point Charges", "Capacitance and\n Resistance"}};
+                                        {"Point Charges", "Magnetic\n Field"}};
     Color[] SUBJECT_COLORS = new Color[]{Color.BLUE, Color.YELLOW, Color.RED};
     String IN_CONS_TITLE = "In Construction", IN_CONS_MESSAGE = "Section currently in construction. You will now be returned to the main menu.";
-    String ADIOS_MESSAGE = "Thank you for trying Project DNIMOY!", ADIOS_TITLE = "Goodbye, dearest user!";
+    String ADIOS_MESSAGE = "Thank you for trying Project DNIMOY!", ADIOS_TITLE = "Adios, dearest user!";
     String HELP_TEXT = "Help", DONE_TEXT = "Done", RESET_TEXT = "Reset", PLAY_TEXT = "Play", PAUSE_TEXT = "Pause";
     double[] xSubPosition = new double[]{100 , 320 , 540};
     double[] ySubPosition = new double[]{10 , 130 , 260};

@@ -5,8 +5,6 @@
  */
 package projectdnimoy.collisions;
 
-import java.util.TimerTask;
-import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;

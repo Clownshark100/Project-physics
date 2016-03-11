@@ -18,6 +18,7 @@ import projectdnimoy.balistics.CannonWindow;
 import projectdnimoy.collisions.CollisionsWindow;
 import projectdnimoy.coulomb.CoulombWindow;
 import projectdnimoy.lenses.LensWindow;
+import projectdnimoy.magnetic.MagneticWindow;
 import projectdnimoy.pendulum.PendulumWindow;
 
 public class Launcher extends Application implements ConstantsInterface {
@@ -107,7 +108,7 @@ public class Launcher extends Application implements ConstantsInterface {
                       else w = new CannonWindow(); break;
         case WAVES_ID:if(choice == 1) w=new PendulumWindow(); 
                       else {w = new LensWindow();} break;
-        case ENM_ID:  if(choice == 1) {} 
+        case ENM_ID:  if(choice == 1) {w = new MagneticWindow();} 
                       else w=new CoulombWindow(); break;
         }
         try {
