@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import projectdnimoy.others.AbstractWindow;
 import javafx.scene.input.MouseEvent;
+import static projectdnimoy.others.ConstantsInterface.paneHeight;
 
 
 /**
@@ -75,7 +76,7 @@ public class CannonWindow extends AbstractWindow {
     @Override
     public void update() {
         ball.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
-        if(calculateHeight()<0) pauseRunning();
+        if (outOfWindow()) pauseRunning();
     }
 
     @Override
@@ -121,8 +122,10 @@ public class CannonWindow extends AbstractWindow {
 
         @Override
         public void handle(MouseEvent e) {
-           tet = Math.atan2((can.getY()-e.getY()),(e.getX()-can.getX()));
+           if (isFirst) {
+           tet = Math.toDegrees(Math.atan2((can.getY()-e.getY()),(e.getX()-can.getX())));
             can.setRotate(-tet);
+           }
         }
     };
     
@@ -130,9 +133,17 @@ public class CannonWindow extends AbstractWindow {
 
         @Override
         public void handle(MouseEvent e) {
+            if (isFirst) {
             tet = Math.toDegrees(Math.atan2((can.getY()-e.getY()),(e.getX()-can.getX())));
             can.setRotate(-tet);
             v=Math.sqrt(Math.pow(can.getY()-e.getY(),2)+Math.pow((e.getX()-can.getX()), 2))/2;
+            System.out.println("Y"+(can.getY()-e.getY()));
+            System.out.println("X"+(e.getX()-can.getX()));
+            }
         }
     };
+    
+    private boolean outOfWindow() {
+        return ball.getX()<0 || ball.getX()>paneWidth || ball.getY()<0 || ball.getY()>paneHeight;
+    }
 }

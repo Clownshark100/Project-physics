@@ -84,6 +84,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         primaryStage.setTitle(getTitle());
         primaryStage.setOnCloseRequest(e -> {Platform.exit(); System.exit(0);});
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
     
@@ -101,12 +102,16 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
             if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
             resetVariables();
             resetChart();
-            playPause.fire();
+            if (playPause.getText().equals(PAUSE_TEXT)) 
+           
+                playPause.fire();
         });
         help.setOnAction((ActionEvent e)->{
             if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
             JOptionPane.showMessageDialog(null, helpMessage(), HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
-            playPause.fire();
+            if (playPause.getText().equals(PAUSE_TEXT)) 
+            
+                playPause.fire();
         });
         playPause.setOnAction((ActionEvent e)->{
             switch (playPause.getText()) {
