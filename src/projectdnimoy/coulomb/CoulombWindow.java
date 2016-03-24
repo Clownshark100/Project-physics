@@ -48,7 +48,10 @@ public class CoulombWindow extends AbstractWindow {
 
     @Override
     public String helpMessage() {
-        return "Help for Coulomb";
+        return "The Coulomb's law, explaining the movement of electric charges in electric fields, is presented here.\n" + 
+                "Click play and watch the dynamic red charge obey the electric fields made by the black static charges.\n" +
+                "Clicking reset will reconfigure the positions and charge of all charges.\n" +
+                "If the red charge is to leave the screen, the program will automatically pause. Clicking play after that will restart ONLY the red charge from a new location.";
     }
 
     @Override

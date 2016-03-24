@@ -108,7 +108,8 @@ public class CollisionsWindow extends AbstractWindow {
 
     @Override
     public String helpMessage() {
-        return "Collisions Help";
+        return "This section displays how collisions affect the paths and momenta of particles. Click play to make all the particles move.\n" + 
+                "Once any collide, they will transfer momentum between themselves. The red charge is the one whose momentum is displayed in the graph.";
     }
 
     @Override

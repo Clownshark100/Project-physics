@@ -100,18 +100,12 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         });
         reset.setOnAction((ActionEvent e)->{
             if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
-            resetVariables();
             resetChart();
-            if (playPause.getText().equals(PAUSE_TEXT)) 
-           
-                playPause.fire();
+            resetVariables();
         });
         help.setOnAction((ActionEvent e)->{
             if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
             JOptionPane.showMessageDialog(null, helpMessage(), HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
-            if (playPause.getText().equals(PAUSE_TEXT)) 
-            
-                playPause.fire();
         });
         playPause.setOnAction((ActionEvent e)->{
             switch (playPause.getText()) {

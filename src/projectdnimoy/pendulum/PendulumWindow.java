@@ -17,7 +17,8 @@ import projectdnimoy.others.Vector2;
  */
 public class PendulumWindow extends AbstractWindow {
 
-    private double startTheta, omega, length;
+    private double omega, length;
+    private int startTheta;
     private final Line thread = new Line();
     private final Circle mass = new Circle(20);
      
@@ -48,7 +49,7 @@ public class PendulumWindow extends AbstractWindow {
     
     @Override
     public void resetVariables() {
-        startTheta = r.nextInt(358)-189;
+        startTheta = r.nextInt(340)-170;
         length = (r.nextDouble()+0.5)*3;
         omega = Math.sqrt(G/length);
         update();
@@ -56,7 +57,8 @@ public class PendulumWindow extends AbstractWindow {
 
     @Override
     public String helpMessage() {
-        return "Help for Pendulum";
+        return "This section simulates a simple harmonic motion pendulum. \nWhile the program plays " + 
+                "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum.";
     }
 
     @Override

@@ -37,7 +37,8 @@ public class MagneticWindow extends AbstractWindow {
 
     @Override
     public String helpMessage() {
-        return "Help for Magnetic";
+        return "This simulation displays the effect of a magnetic field coming from a straight wire with a constant current on an electric charge.\n" + 
+                "Click play to watch the trajectory of the particle, repeated in graph form.\nClicking reset will place a new particle at a new starting location and with a new starting velocity vector.";
     }
 
     @Override
@@ -85,7 +86,6 @@ public class MagneticWindow extends AbstractWindow {
         public Vector2 accAtPos() {
             Vector2 result = new Vector2(-vel.getY(), vel.getX());
             result.scale(charge*current/mass*vel.getMagnitude()/(getCenterX()-wireX));
-            System.out.println(result);
             return result;
         }
     }
