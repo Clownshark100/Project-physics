@@ -53,11 +53,6 @@ public class MagneticWindow extends AbstractWindow {
         c.update();
         if(c.vel.getMagnitude()>50) pauseRunning();
     }
-
-    @Override
-    public void onPlayClick() {
-        
-    }
     
     private class Charge extends Circle {
         int charge = 500, current = 1, mass = 1;
@@ -89,4 +84,7 @@ public class MagneticWindow extends AbstractWindow {
             return result;
         }
     }
+
+    @Override
+    public void onPlayClick() {}
 }

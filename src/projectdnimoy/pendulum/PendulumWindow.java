@@ -69,8 +69,6 @@ public class PendulumWindow extends AbstractWindow {
     }
 
     @Override
-    public void onPlayClick() {
-        
-    }
+    public void onPlayClick() {}
     
 }

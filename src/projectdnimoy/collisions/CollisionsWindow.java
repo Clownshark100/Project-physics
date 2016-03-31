@@ -16,12 +16,6 @@ import projectdnimoy.others.Vector2;
  * @author cstuser
  */
 public class CollisionsWindow extends AbstractWindow {
-
-    @Override
-    public void onPlayClick() {
-        
-    }
-    
     
     private class Ball extends Circle {
         Vector2 vel;
@@ -118,5 +112,7 @@ public class CollisionsWindow extends AbstractWindow {
         result.setPrefSize(paneWidth, paneHeight);
         return result;
     }
-    
+
+    @Override
+    public void onPlayClick() {}
 }

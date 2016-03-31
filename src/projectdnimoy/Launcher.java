@@ -23,6 +23,7 @@ import projectdnimoy.pendulum.PendulumWindow;
 
 public class Launcher extends Application implements ConstantsInterface {
     Stage primaryStage;
+    
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -89,7 +90,6 @@ public class Launcher extends Application implements ConstantsInterface {
             b.setOnAction((ActionEvent e)->launchWindow(sub, num));
         } else {
             b = new Button(IN_CONS_TITLE);
-            /*JOptionPane.showMessageDialog(null, IN_CONS_MESSAGE, IN_CONS_TITLE, JOptionPane.INFORMATION_MESSAGE)*/
             b.setOnAction((ActionEvent e)->new Alert(Alert.AlertType.WARNING, IN_CONS_MESSAGE).showAndWait());
         }
         b.setBorder(new Border(new BorderStroke(Color.STEELBLUE, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderStroke.DEFAULT_WIDTHS)));
