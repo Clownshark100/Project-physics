@@ -59,9 +59,10 @@ public class CannonWindow extends AbstractWindow {
             @Override
             public void handle(MouseEvent e) {
                 if (isFirst) {
-                    Vector2 launch = new Vector2(e.getX()-can.getX(), can.getY()-e.getY());
-                    can.setRotate(-Math.toDegrees(launch.getDirection()));
-                    v=launch.getMagnitude()/2;
+                    Vector2 launch = new Vector2(e.getSceneX()-can.getX(), can.getY()-e.getSceneY());
+                    can.setRotate(Math.toDegrees(-launch.getDirection()));
+                    tet = -can.getRotate();
+                    v=launch.getMagnitude()/4;
                 }
             }
         });
@@ -87,7 +88,7 @@ public class CannonWindow extends AbstractWindow {
 
     @Override
     protected void addPoint() {
-        addPoint(getRunningTime(), calculateHeight());
+        addPoint(getRunningTime(), calculateHeight()+16);
     }
 
     @Override
@@ -111,7 +112,7 @@ public class CannonWindow extends AbstractWindow {
     }
     
     private boolean outOfWindow() {
-        return ball.getX()<0 || ball.getX()>paneWidth || ball.getY()<0 || ball.getY()>paneHeight;
+        return ball.getX()<0 || ball.getX()>paneWidth || ball.getY()<0 || (ball.getY()+16)>paneHeight;
     }
 
     private class CannonBall extends ImageView {
