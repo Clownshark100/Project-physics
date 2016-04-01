@@ -12,27 +12,37 @@ import static projectdnimoy.others.ConstantsInterface.TOPICS;
  */
 public class LensWindow extends AbstractWindow {
     
-    Witch image = new Witch();
+    Im image = new Im();
     ConvLens convLens = new ConvLens();
-    Human object = new Human();
+    Obj object = new Obj();
     public LensWindow(){
-        super(TOPICS[WAVES_ID][2]);
+        super(TOPICS[WAVES_ID][0]);
         resetVariables();
     }
-    double f = 50;
-    double o = 70;
+    double f = 30, p = 80;
     
-    private double calculateImage() {
-        return 1/(1/f - 1/o);  
+    private double calculateImageDistance() {
+        return 1/(1/f - 1/p);  
+    }
+    private double calculateImageSize() {
+        return (calculateImageDistance()*object.getFitHeight())/p;  
     }
     
-    public void resetVariables() {
+    public void resetVariables() {   
+     p-= 20;
+     convLens.setFitHeight(280);
+     convLens.setPreserveRatio(true);
      convLens.setX(250);
-     convLens.setY(75);
-     object.setX(250-70);
-     object.setY(50);
-     image.setX(calculateImage());
-     image.setY(100);
+     convLens.setY(100);
+     object.setX((390-p + object.getFitWidth())*(1/1.5));
+     object.setY(120);
+     object.setSize(120);
+     object.isPreserveRatio();
+     image.setX((calculateImageDistance()+ convLens.getX()+140 - image.getFitWidth())*1.5);
+     image.setY(240);
+     image.setSize(calculateImageSize());
+     image.isPreserveRatio();
+     image.setRotate(180);
      
       update();
     }
@@ -48,12 +58,13 @@ public class LensWindow extends AbstractWindow {
 
     @Override
     public void update() {
-       image.setPosition(calculateImage(), 100);
+       image.setPosition((calculateImageDistance()+ convLens.getX()+140)*1.5,240);
+       image.setSize(calculateImageSize());
     }
 
     @Override
     protected void addPoint() {
-       addPoint(getRunningTime(), calculateImage());
+       addPoint(p, calculateImageDistance());
     }
     @Override
     public Pane initAnimationPane() {
@@ -64,15 +75,20 @@ public class LensWindow extends AbstractWindow {
 
  
     public void onPlayClick() {
+       
         
         
     }
 
-    private class Human extends ImageView {
+    private class Obj extends ImageView {
 
-         Human() {
+         Obj() {
             super(new Image("projectdnimoy/images/human.png"));
         }
+         public void setSize(double h){
+           setFitHeight(h);
+           setPreserveRatio(true);
+       }
     }
 
     private class ConvLens extends ImageView {
@@ -80,24 +96,21 @@ public class LensWindow extends AbstractWindow {
         ConvLens() {
          super(new Image("projectdnimoy/images/converLens.jpg"));
         }
-        
-        public void setPosition(double x,double y){
-            setX(x);
-            setY(y);
-        }
-        
-       
     }
 
-    private class Witch extends ImageView {
+    private class Im extends ImageView {
        
-       Witch() {
+       Im() {
            super(new Image("projectdnimoy/images/demon.png"));
        }
        
        public void setPosition(double x, double y) {
            setX(x);
            setY(y);
+       }
+       public void setSize(double h){
+           setFitHeight(h);
+           setPreserveRatio(true);
        }
     }   
 }
