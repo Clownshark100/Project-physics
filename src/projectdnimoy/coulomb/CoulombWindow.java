@@ -17,16 +17,17 @@ import projectdnimoy.others.*;
 public class CoulombWindow extends AbstractWindow {
     Charge[] array = new Charge[4];
     Vector2 zeroVel = new Vector2(), zeroPos;
+    final int DEFAULT_CHARGE = 10;
     
     public CoulombWindow() {
         super(TOPICS[ENM_ID][0]);
-        for(int i = 0; i<4; i++) array[i] = new Charge(10);
-        zeroPos = new Vector2(array[0].getCenterX(), array[0].getCenterY());
-        array[0].setFill(Color.RED);
+        for(int i = ZERO; i<4; i++) array[i] = new Charge(DEFAULT_CHARGE);
+        zeroPos = new Vector2(array[ZERO].getCenterX(), array[ZERO].getCenterY());
+        array[ZERO].setFill(Color.RED);
     }
     
     private Vector2 totalFieldAtZero() {
-        Vector2 test = new Vector2(array[0].getCenterX(), array[0].getCenterY());
+        Vector2 test = new Vector2(array[ZERO].getCenterX(), array[ZERO].getCenterY());
         Vector2 sum = new Vector2();
         for(int i = 1; i<array.length; i++) sum.add(array[i].fieldAt(test));
         return sum;
@@ -40,10 +41,10 @@ public class CoulombWindow extends AbstractWindow {
     @Override
     public void resetVariables() {
         for(Charge c : array) c.resetToRandom();
-        zeroPos.setX(array[0].getCenterX());
-        zeroPos.setY(array[0].getCenterY());
-        zeroVel.setX(0);
-        zeroVel.setY(0);
+        zeroPos.setX(array[ZERO].getCenterX());
+        zeroPos.setY(array[ZERO].getCenterY());
+        zeroVel.setX(ZERO);
+        zeroVel.setY(ZERO);
     }
 
     @Override
@@ -69,23 +70,23 @@ public class CoulombWindow extends AbstractWindow {
             Vector2 acc = totalFieldAtZero().scale(array[0].charge*deltaTime()); //divided by mass
             zeroVel.add(acc);
             zeroPos.add(zeroVel);
-            array[0].setCenterX(zeroPos.getX());
-            array[0].setCenterY(zeroPos.getY());
+            array[ZERO].setCenterX(zeroPos.getX());
+            array[ZERO].setCenterY(zeroPos.getY());
         }
     }
     
     private boolean outOfWindow() {
-        return zeroPos.getX()<0 || zeroPos.getX()>paneWidth || zeroPos.getY()<0 || zeroPos.getY()>paneHeight;
+        return zeroPos.getX()<ZERO || zeroPos.getX()>paneWidth || zeroPos.getY()<ZERO || zeroPos.getY()>paneHeight;
     }
 
     @Override
     public void onPlayClick() {
         if(isForcedPause()) {
             array[0].resetToRandom();
-            zeroPos.setX(array[0].getCenterX());
-            zeroPos.setY(array[0].getCenterY());
-            zeroVel.setX(0);
-            zeroVel.setY(0);
+            zeroPos.setX(array[ZERO].getCenterX());
+            zeroPos.setY(array[ZERO].getCenterY());
+            zeroVel.setX(ZERO);
+            zeroVel.setY(ZERO);
             resetChart();
         }
     }

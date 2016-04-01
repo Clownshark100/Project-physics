@@ -17,7 +17,7 @@ import projectdnimoy.others.Vector2;
  * @author Ivan Miloslavov
  */
 public class MagneticWindow extends AbstractWindow {
-    int wireX = 20;
+    final int wireX = 20, maxVel = 50;
     Charge c;
 
     public MagneticWindow() {
@@ -51,7 +51,7 @@ public class MagneticWindow extends AbstractWindow {
     @Override
     public void update() {
         c.update();
-        if(c.vel.getMagnitude()>50) pauseRunning();
+        if(c.vel.getMagnitude()>maxVel) pauseRunning();
     }
     
     private class Charge extends Circle {

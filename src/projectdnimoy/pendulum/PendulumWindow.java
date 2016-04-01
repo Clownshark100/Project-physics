@@ -21,6 +21,7 @@ public class PendulumWindow extends AbstractWindow {
     private int startTheta;
     private final Line thread = new Line();
     private final Circle mass = new Circle(20);
+    private final int MAX_ANGLE = 170, LENGTH_MOD = 3;
      
     public PendulumWindow() {
         super(TOPICS[WAVES_ID][1]);
@@ -49,8 +50,8 @@ public class PendulumWindow extends AbstractWindow {
     
     @Override
     public void resetVariables() {
-        startTheta = r.nextInt(340)-170;
-        length = (r.nextDouble()+0.5)*3;
+        startTheta = r.nextInt(MAX_ANGLE*2)-MAX_ANGLE;
+        length = (r.nextDouble()+0.5)*LENGTH_MOD;
         omega = Math.sqrt(G/length);
         update();
     }

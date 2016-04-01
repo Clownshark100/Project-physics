@@ -16,6 +16,7 @@ import projectdnimoy.others.Vector2;
  * @author cstuser
  */
 public class CollisionsWindow extends AbstractWindow {
+    private final int MAX_VEL = 35;
     
     private class Ball extends Circle {
         Vector2 vel;
@@ -51,7 +52,7 @@ public class CollisionsWindow extends AbstractWindow {
         public void resetToRandom() {
             setCenterX(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius());
             setCenterY(r.nextInt(paneHeight-(int)getRadius()*2)+(int)getRadius());
-            vel = new Vector2(r.nextInt(70)-35, r.nextInt(70)-35);
+            vel = new Vector2(r.nextInt(MAX_VEL*2)-MAX_VEL, r.nextInt(MAX_VEL*2)-MAX_VEL);
         }
 
 	public void transferMomentum(Ball other){
@@ -76,16 +77,17 @@ public class CollisionsWindow extends AbstractWindow {
         }
     }
     private Ball[] balls = new Ball[10];
+    private final int DEFAULT_RADIUS = 15;
     
     public CollisionsWindow() {
         super(TOPICS[MECH_ID][1]);
-        for(int i = 0; i<balls.length; i++) balls[i] = new Ball(15);
-        balls[0].setFill(Color.RED);
+        for(int i = ZERO; i<balls.length; i++) balls[i] = new Ball(DEFAULT_RADIUS);
+        balls[ZERO].setFill(Color.RED);
     }
 
     @Override
     protected void addPoint() {
-        addPoint(getRunningTime(), balls[0].vel.getMagnitude());
+        addPoint(getRunningTime(), balls[ZERO].vel.getMagnitude());
     }
     
     @Override
