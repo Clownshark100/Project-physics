@@ -2,6 +2,7 @@ package projectdnimoy;
 
 import projectdnimoy.others.ConstantsInterface;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -53,6 +54,7 @@ public class Launcher extends Application implements ConstantsInterface {
         
         Scene scene = new Scene(root, width, height);
         primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(e -> {Platform.exit(); System.exit(0);});
         primaryStage.setTitle("Menu");
         primaryStage.setScene(scene);
         primaryStage.show();
