@@ -19,7 +19,7 @@ public class LensWindow extends AbstractWindow {
         super(TOPICS[WAVES_ID][0]);
         resetVariables();
     }
-    double f = 30, p = 80;
+    double f = 30, p = 180;
     
     private double calculateImageDistance() {
         return 1/(1/f - 1/p);  
@@ -30,15 +30,15 @@ public class LensWindow extends AbstractWindow {
     
     public void resetVariables() {   
      p-= 20;
-     convLens.setFitHeight(280);
+     convLens.setFitHeight(250);
      convLens.setPreserveRatio(true);
-     convLens.setX(250);
+     convLens.setX(275);
      convLens.setY(100);
-     object.setX((390-p + object.getFitWidth())*(1/1.5));
+     object.setX(convLens.getX()+52-p*2 + object.getFitWidth());
      object.setY(120);
      object.setSize(120);
      object.isPreserveRatio();
-     image.setX((calculateImageDistance()+ convLens.getX()+140 - image.getFitWidth())*1.5);
+     image.setX(calculateImageDistance()*2+ convLens.getX()+52 - image.getFitWidth());
      image.setY(240);
      image.setSize(calculateImageSize());
      image.isPreserveRatio();
@@ -58,7 +58,7 @@ public class LensWindow extends AbstractWindow {
 
     @Override
     public void update() {
-       image.setPosition((calculateImageDistance()+ convLens.getX()+140)*1.5,240);
+       image.setPosition(calculateImageDistance()*2+ convLens.getX()+52,240);
        image.setSize(calculateImageSize());
     }
 
@@ -94,7 +94,7 @@ public class LensWindow extends AbstractWindow {
     private class ConvLens extends ImageView {
 
         ConvLens() {
-         super(new Image("projectdnimoy/images/converLens.jpg"));
+         super(new Image("projectdnimoy/images/converLens.png"));
         }
     }
 
