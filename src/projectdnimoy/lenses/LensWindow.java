@@ -1,8 +1,12 @@
 package projectdnimoy.lenses;
 
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import projectdnimoy.others.AbstractWindow;
 import static projectdnimoy.others.ConstantsInterface.TOPICS;
 
@@ -19,7 +23,7 @@ public class LensWindow extends AbstractWindow {
         super(TOPICS[WAVES_ID][0]);
         resetVariables();
     }
-    double f = 30, p = 180;
+    double f = 30, p = 160;
     
     private double calculateImageDistance() {
         return 1/(1/f - 1/p);  
@@ -28,13 +32,13 @@ public class LensWindow extends AbstractWindow {
         return (calculateImageDistance()*object.getFitHeight())/p;  
     }
     
-    public void resetVariables() {   
-     p-= 20;
+    public void resetVariables() {
+    
      convLens.setFitHeight(250);
      convLens.setPreserveRatio(true);
      convLens.setX(275);
      convLens.setY(100);
-     object.setX(convLens.getX()+52-p*2 + object.getFitWidth());
+     object.setX(convLens.getX()+52-2*p + object.getFitWidth());
      object.setY(120);
      object.setSize(120);
      object.isPreserveRatio();
@@ -75,7 +79,17 @@ public class LensWindow extends AbstractWindow {
 
  
     public void onPlayClick() {
-       
+        TranslateTransition trObj = new TranslateTransition(Duration.seconds(5), object);
+        trObj.setToX(160);
+        trObj.equals(-p*2 + object.getFitWidth() + convLens.getX()+52);
+        TranslateTransition trIm =  new TranslateTransition(Duration.seconds(5), image);
+        trIm.setByX(calculateImageDistance()*2);
+        trIm.setByY(35);
+        ScaleTransition scIm = new ScaleTransition(Duration.seconds(5), image);
+        scIm.setByX(2.8);
+        scIm.setByY(2.8);
+        ParallelTransition prTransition = new ParallelTransition(trObj,trIm,scIm);
+        prTransition.play();
         
         
     }
