@@ -13,10 +13,6 @@ import static projectdnimoy.others.ConstantsInterface.paneHeight;
 import projectdnimoy.others.Vector2;
 
 
-/**
- * @author Olex Yasinovskyy
- * @author Ivan Miloslavov
- */
 public class CannonWindow extends AbstractWindow {
     CannonBall ball = new CannonBall();
     CannonBody can = new CannonBody();
@@ -59,7 +55,7 @@ public class CannonWindow extends AbstractWindow {
             @Override
             public void handle(MouseEvent e) {
                 if (isFirst) {
-                    Vector2 launch = new Vector2(e.getSceneX()-can.getX(), can.getY()-e.getSceneY());
+                    Vector2 launch = new Vector2(Math.max(0,e.getSceneX()-can.getX()), Math.max(0,can.getY()-e.getSceneY()));
                     can.setRotate(Math.toDegrees(-launch.getDirection()));
                     tet = -can.getRotate();
                     v=launch.getMagnitude()/4;
@@ -83,7 +79,8 @@ public class CannonWindow extends AbstractWindow {
     @Override
     public String helpMessage() {
         return "Click and drag the cannon to give it initial velocity and angle of shot. "
-                + "Press start and observe the cannonball's trajectory.";
+                + "Press start and observe the cannonball's trajectory. "
+                + "The farther you drag, the stronger the shot!";
     }
 
     @Override

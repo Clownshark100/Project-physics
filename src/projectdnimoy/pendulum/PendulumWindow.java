@@ -1,24 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package projectdnimoy.pendulum;
 
+import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import projectdnimoy.others.AbstractWindow;
+import static projectdnimoy.others.ConstantsInterface.paneWidth;
 import projectdnimoy.others.Vector2;
 
-/**
- *
- * @author cstuser
- */
 public class PendulumWindow extends AbstractWindow {
 
     private double omega, length;
-    private int startTheta;
+    private double startTheta;
+    private boolean isFirst;
     private final Line thread = new Line();
     private final Circle mass = new Circle(20);
     private final int MAX_ANGLE = 170, LENGTH_MOD = 3;
@@ -27,6 +23,7 @@ public class PendulumWindow extends AbstractWindow {
         super(TOPICS[WAVES_ID][1]);
         thread.setStartX(paneWidth/2);
         thread.setStartY(paneHeight/2);
+        mass.setCursor(Cursor.HAND);
         resetVariables();
     }
     
@@ -46,14 +43,42 @@ public class PendulumWindow extends AbstractWindow {
         thread.setEndY(thread.getStartY()+v.getY());
         mass.setCenterX(thread.getEndX());
         mass.setCenterY(thread.getEndY());
+        isFirst = true;
     }
     
     @Override
-    public void resetVariables() {
+    public void resetVariables() {     
         startTheta = r.nextInt(MAX_ANGLE*2)-MAX_ANGLE;
         length = (r.nextDouble()+0.5)*LENGTH_MOD;
         omega = Math.sqrt(G/length);
-        update();
+        
+        mass.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+               if (isFirst) {
+                thread.setEndX(e.getSceneX());
+                thread.setEndY(e.getSceneY());
+                mass.setCenterX(thread.getEndX());
+                mass.setCenterY(thread.getEndY());
+               }
+             }
+        }); 
+        
+        mass.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent e) {
+                if (isFirst) {
+                thread.setEndX(e.getSceneX());
+                thread.setEndY(e.getSceneY());
+                mass.setCenterX(e.getSceneX());
+                mass.setCenterY(e.getSceneY());
+                startTheta = Math.toDegrees(Math.atan2((paneWidth/2-thread.getEndX()), (thread.getEndY())));
+                length = (Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2)))/20;
+                System.out.println(length);
+                }
+            }
+        });
+         update();
     }
 
     @Override
@@ -70,6 +95,7 @@ public class PendulumWindow extends AbstractWindow {
     }
 
     @Override
-    public void onPlayClick() {}
-    
+    public void onPlayClick() {
+        isFirst = false;
+    }
 }
