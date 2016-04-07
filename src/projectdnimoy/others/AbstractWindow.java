@@ -35,7 +35,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     private Stage mainMenu;
     private boolean running, forcedPause;
     private long lastNanoTime;
-    private double runningTime = 0;
+    private double runningTime = ZERO;
     protected Timer t = new Timer();
     protected Random r = new Random();
     private Button playPause;
@@ -56,7 +56,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                     });
                 }
             }
-        }, 1000, 25);
+        }, 1000, UPDATE_FRAMERATE);
         t.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -64,7 +64,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                     Platform.runLater(()->addPoint());
                 }
             }
-        }, 1000, 166);
+        }, 1000, CHART_FRAMERATE);
         setTitle(title);
     }
     
@@ -75,8 +75,8 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane root = new GridPane();
-        root.add(initAnimationPane(), 0, 0, 2, 1);
-        root.add(initButtonPane(primaryStage), 0, 1);
+        root.add(initAnimationPane(), ZERO, ZERO, 2, 1);
+        root.add(initButtonPane(primaryStage), ZERO, 1);
         root.add(chart, 1, 1);
         
         Scene scene = new Scene(root, width, height);
@@ -122,9 +122,9 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
                     break;
             }
         });
-        result.add(playPause, 0, 0);
-        result.add(reset, 0, 1);
-        result.add(help, 1, 0);
+        result.add(playPause, ZERO, ZERO);
+        result.add(reset, ZERO, 1);
+        result.add(help, 1, ZERO);
         result.add(done, 1, 1);
         return result;
     }
@@ -172,7 +172,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         return delta;
     }
     
-    public void nextFrame() {
+    private void nextFrame() {
         runningTime+=deltaTime();
         lastNanoTime = System.nanoTime();
     }
