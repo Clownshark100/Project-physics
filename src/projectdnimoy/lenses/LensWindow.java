@@ -2,7 +2,6 @@ package projectdnimoy.lenses;
 
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -23,8 +22,10 @@ public class LensWindow extends AbstractWindow {
         super(TOPICS[WAVES_ID][0]);
         resetVariables();
     }
-    double f = 30, p = 160;
-    
+    double f = 30, p = 160, v = 30;
+    private double calculateObjectDistance(){
+        return v*getRunningTime();
+    }
     private double calculateImageDistance() {
         return 1/(1/f - 1/p);  
     }
@@ -62,13 +63,17 @@ public class LensWindow extends AbstractWindow {
 
     @Override
     public void update() {
-       image.setPosition(calculateImageDistance()*2+ convLens.getX()+52,240);
+       object.setPosition(calculateObjectDistance(), 120);
+       image.setPosition(calculateImageDistance(),240);
        image.setSize(calculateImageSize());
+       if(calculateObjectDistance()> 160) pauseRunning();
     }
+    
 
     @Override
     protected void addPoint() {
-       addPoint(p, calculateImageDistance());
+       addPoint(calculateObjectDistance(), 
+               calculateImageDistance());
     }
     @Override
     public Pane initAnimationPane() {
@@ -76,19 +81,13 @@ public class LensWindow extends AbstractWindow {
        anim.setPrefSize(paneWidth, paneHeight);
        return anim;
     }
-
+    
  
     public void onPlayClick() {
-        TranslateTransition trObj = new TranslateTransition(Duration.seconds(5), object);
-        trObj.setToX(160);
-        trObj.equals(-p*2 + object.getFitWidth() + convLens.getX()+52);
-        TranslateTransition trIm =  new TranslateTransition(Duration.seconds(5), image);
-        trIm.setByX(calculateImageDistance()*2);
-        trIm.setByY(35);
         ScaleTransition scIm = new ScaleTransition(Duration.seconds(5), image);
         scIm.setByX(2.8);
         scIm.setByY(2.8);
-        ParallelTransition prTransition = new ParallelTransition(trObj,trIm,scIm);
+        ParallelTransition prTransition = new ParallelTransition(scIm);
         prTransition.play();
         
         
@@ -99,6 +98,10 @@ public class LensWindow extends AbstractWindow {
          Obj() {
             super(new Image("projectdnimoy/images/human.png"));
         }
+         public void setPosition(double x, double y) {
+           setX(x);
+           setY(y);
+       }
          public void setSize(double h){
            setFitHeight(h);
            setPreserveRatio(true);
