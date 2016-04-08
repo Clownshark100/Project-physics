@@ -79,7 +79,13 @@ public class LensWindow extends AbstractWindow {
        return anim;
     }
  
-    public void onPlayClick() {}
+    @Override
+    public void onPlayClick() {
+        if(isForcedPause()){
+            resetChart();
+            resetVariables();
+        }
+    }
 
     private class Obj extends ImageView {
 

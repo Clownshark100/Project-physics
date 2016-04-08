@@ -12,19 +12,18 @@ import projectdnimoy.others.Vector2;
 
 public class PendulumWindow extends AbstractWindow {
 
-    private double omega, length;
-    private double startTheta;
-    private boolean isFirst;
+    private double omega, length, startTheta;
+    private boolean isFirst = true;
     private final Line thread = new Line();
     private final Circle mass = new Circle(20);
-    private final int MAX_ANGLE = 170, LENGTH_MOD = 3;
+    private final short MAX_ANGLE = 100, LENGTH_MOD = 200;
      
     public PendulumWindow() {
         super(TOPICS[WAVES_ID][1]);
         setHelpMessage("This section simulates a simple harmonic motion pendulum. \nWhile the program plays " + 
                 "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum.");
         thread.setStartX(paneWidth/2);
-        thread.setStartY(paneHeight/2);
+        thread.setStartY(paneHeight/4);
         mass.setCursor(Cursor.HAND);
         resetVariables();
     }
@@ -40,19 +39,18 @@ public class PendulumWindow extends AbstractWindow {
     
     @Override
     public void update() {
-        Vector2 v = Vector2.fromPolar(length*Math.min(paneHeight, paneWidth)/9-10, Math.toRadians(getTheta()+90));
+        Vector2 v = Vector2.fromPolar(length, Math.toRadians(getTheta()+90));
         thread.setEndX(thread.getStartX()+v.getX());
         thread.setEndY(thread.getStartY()+v.getY());
         mass.setCenterX(thread.getEndX());
         mass.setCenterY(thread.getEndY());
-        isFirst = true;
     }
     
     @Override
     public void resetVariables() {     
         startTheta = r.nextInt(MAX_ANGLE*2)-MAX_ANGLE;
         length = (r.nextDouble()+0.5)*LENGTH_MOD;
-        omega = Math.sqrt(G/length);
+        omega = 10*Math.sqrt(G/length);
         
         mass.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -74,13 +72,14 @@ public class PendulumWindow extends AbstractWindow {
                 thread.setEndY(e.getSceneY());
                 mass.setCenterX(e.getSceneX());
                 mass.setCenterY(e.getSceneY());
-                startTheta = Math.toDegrees(Math.atan2((paneWidth/2-thread.getEndX()), (thread.getEndY())));
-                length = (Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2)))/20;
-                System.out.println(length);
+                startTheta = -Math.toDegrees(Math.atan2((thread.getEndX()-paneWidth/2), (thread.getEndY()-thread.getStartY())));
+                length = (Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2)));
+                omega = 10*Math.sqrt(G/length);
                 }
             }
         });
          update();
+         isFirst = true;
     }
 
     @Override
