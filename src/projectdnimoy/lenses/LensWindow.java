@@ -1,11 +1,11 @@
 package projectdnimoy.lenses;
 
-import javafx.animation.ParallelTransition;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javafx.animation.ScaleTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import projectdnimoy.others.AbstractWindow;
 import static projectdnimoy.others.ConstantsInterface.TOPICS;
 
@@ -26,15 +26,21 @@ public class LensWindow extends AbstractWindow {
     private double calculateObjectDistance(){
         return v*getRunningTime();
     }
-    private double calculateImageDistance() {
+    private double calculateIniImageDistance() {
         return 1/(1/f - 1/p);  
     }
-    private double calculateImageSize() {
+    private double calculateImageDistance(){
+        return 1/(1/f-1/(p-calculateObjectDistance()));
+    }
+    private double calculateIniImageSize() {
+        return (calculateIniImageDistance()*object.getFitHeight())/p;  
+    }
+     private double calculateImageSize() {
         return (calculateImageDistance()*object.getFitHeight())/p;  
     }
     
     public void resetVariables() {
-    
+     p= 160;
      convLens.setFitHeight(250);
      convLens.setPreserveRatio(true);
      convLens.setX(275);
@@ -43,9 +49,9 @@ public class LensWindow extends AbstractWindow {
      object.setY(120);
      object.setSize(120);
      object.isPreserveRatio();
-     image.setX(calculateImageDistance()*2+ convLens.getX()+52 - image.getFitWidth());
+     image.setX(calculateIniImageDistance()*2+ convLens.getX()+52 - image.getFitWidth());
      image.setY(240);
-     image.setSize(calculateImageSize());
+     image.setSize(calculateIniImageSize());
      image.isPreserveRatio();
      image.setRotate(180);
      
@@ -63,16 +69,17 @@ public class LensWindow extends AbstractWindow {
 
     @Override
     public void update() {
-       object.setPosition(calculateObjectDistance(), 120);
-       image.setPosition(calculateImageDistance(),240);
+       object.setPosition(calculateObjectDistance(), 120);   
+       image.setPosition(calculateImageDistance()*2+ convLens.getX()+52 - image.getFitWidth(),240);
        image.setSize(calculateImageSize());
-       if(calculateObjectDistance()> 160) pauseRunning();
+       if(calculateObjectDistance()> 110 )pauseRunning();
+       
     }
     
 
     @Override
     protected void addPoint() {
-       addPoint(calculateObjectDistance(), 
+       addPoint(p-calculateObjectDistance(), 
                calculateImageDistance());
     }
     @Override
@@ -84,11 +91,6 @@ public class LensWindow extends AbstractWindow {
     
  
     public void onPlayClick() {
-        ScaleTransition scIm = new ScaleTransition(Duration.seconds(5), image);
-        scIm.setByX(2.8);
-        scIm.setByY(2.8);
-        ParallelTransition prTransition = new ParallelTransition(scIm);
-        prTransition.play();
         
         
     }
@@ -130,4 +132,18 @@ public class LensWindow extends AbstractWindow {
            setPreserveRatio(true);
        }
     }   
+
+    private static class ActionListenerImpl implements ActionListener {
+
+        private final ScaleTransition scIm;
+
+        public ActionListenerImpl(ScaleTransition scIm) {
+            this.scIm = scIm;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            scIm.stop();
+        }
+    }
 }
