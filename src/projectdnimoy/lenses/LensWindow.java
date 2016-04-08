@@ -1,8 +1,5 @@
 package projectdnimoy.lenses;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javafx.animation.ScaleTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -18,11 +15,15 @@ public class LensWindow extends AbstractWindow {
     Im image = new Im();
     ConvLens convLens = new ConvLens();
     Obj object = new Obj();
+    double f = 30, p = 160, v = 30;
+    
     public LensWindow(){
         super(TOPICS[WAVES_ID][0]);
+        setHelpMessage("This simulation presents the effect of lenses on images.\nPress play to visualize the displacement of an image created" + 
+                " by a convergent lens depending on the displcement of the original object.");
         resetVariables();
     }
-    double f = 30, p = 160, v = 30;
+    
     private double calculateObjectDistance(){
         return v*getRunningTime();
     }
@@ -56,16 +57,7 @@ public class LensWindow extends AbstractWindow {
      image.setRotate(180);
      
       update();
-    }
-
-    
-
-    @Override
-    public String helpMessage() {
-        return "Press start and observe the change of image over time.";
-    }
-
-    
+    }    
 
     @Override
     public void update() {
@@ -73,9 +65,7 @@ public class LensWindow extends AbstractWindow {
        image.setPosition(calculateImageDistance()*2+ convLens.getX()+52 - image.getFitWidth(),240);
        image.setSize(calculateImageSize());
        if(calculateObjectDistance()> 110 )pauseRunning();
-       
-    }
-    
+    }    
 
     @Override
     protected void addPoint() {
@@ -88,12 +78,8 @@ public class LensWindow extends AbstractWindow {
        anim.setPrefSize(paneWidth, paneHeight);
        return anim;
     }
-    
  
-    public void onPlayClick() {
-        
-        
-    }
+    public void onPlayClick() {}
 
     private class Obj extends ImageView {
 
@@ -131,19 +117,5 @@ public class LensWindow extends AbstractWindow {
            setFitHeight(h);
            setPreserveRatio(true);
        }
-    }   
-
-    private static class ActionListenerImpl implements ActionListener {
-
-        private final ScaleTransition scIm;
-
-        public ActionListenerImpl(ScaleTransition scIm) {
-            this.scIm = scIm;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            scIm.stop();
-        }
     }
 }

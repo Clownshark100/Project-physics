@@ -21,6 +21,8 @@ public class PendulumWindow extends AbstractWindow {
      
     public PendulumWindow() {
         super(TOPICS[WAVES_ID][1]);
+        setHelpMessage("This section simulates a simple harmonic motion pendulum. \nWhile the program plays " + 
+                "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum.");
         thread.setStartX(paneWidth/2);
         thread.setStartY(paneHeight/2);
         mass.setCursor(Cursor.HAND);
@@ -79,12 +81,6 @@ public class PendulumWindow extends AbstractWindow {
             }
         });
          update();
-    }
-
-    @Override
-    public String helpMessage() {
-        return "This section simulates a simple harmonic motion pendulum. \nWhile the program plays " + 
-                "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum.";
     }
 
     @Override

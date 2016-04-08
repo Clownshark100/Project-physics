@@ -29,7 +29,7 @@ import javax.swing.JOptionPane;
  */
 public abstract class AbstractWindow extends Application implements ConstantsInterface {
     
-    private final SimpleStringProperty title = new SimpleStringProperty();
+    private final SimpleStringProperty title = new SimpleStringProperty(), helpMessage = new SimpleStringProperty();
     private final ScatterChart chart;
     private final XYChart.Series mainSeries;
     private Stage mainMenu;
@@ -105,7 +105,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         });
         help.setOnAction((ActionEvent e)->{
             if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
-            JOptionPane.showMessageDialog(null, helpMessage(), HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, helpMessage, HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
         });
         playPause.setOnAction((ActionEvent e)->{
             switch (playPause.getText()) {
@@ -139,6 +139,18 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     
     public StringProperty titleProperty() {
         return title;
+    }
+    
+    public void setHelpMessage(String m) {
+        helpMessage.set(m);
+    }
+    
+    public String getHelpMessage() {
+        return helpMessage.get();
+    }
+    
+    public StringProperty helpMessageProperty() {
+        return helpMessage;
     }
     
     public void setChartTitle(String name) {
@@ -184,7 +196,6 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     
     protected abstract void addPoint();
     public abstract void resetVariables();
-    public abstract String helpMessage();
     public abstract Pane initAnimationPane();
     public abstract void update();
     public abstract void onPlayClick();

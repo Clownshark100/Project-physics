@@ -22,6 +22,9 @@ public class CannonWindow extends AbstractWindow {
     
     public CannonWindow(){
         super(TOPICS[MECH_ID][0]);
+        setHelpMessage("Click and drag the cannon to give it initial velocity and angle of shot. "
+                + "Press start and observe the cannonball's trajectory. "
+                + "The farther you drag, the stronger the shot!");
         resetVariables();
     }
     
@@ -74,13 +77,6 @@ public class CannonWindow extends AbstractWindow {
        anim.setPrefSize(paneWidth, paneHeight);
              
        return anim; 
-    }
-    
-    @Override
-    public String helpMessage() {
-        return "Click and drag the cannon to give it initial velocity and angle of shot. "
-                + "Press start and observe the cannonball's trajectory. "
-                + "The farther you drag, the stronger the shot!";
     }
 
     @Override

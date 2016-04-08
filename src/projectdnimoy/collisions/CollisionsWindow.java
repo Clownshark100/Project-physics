@@ -17,6 +17,43 @@ import projectdnimoy.others.Vector2;
  */
 public class CollisionsWindow extends AbstractWindow {
     private final int MAX_VEL = 35;
+    private Ball[] balls = new Ball[10];
+    private final int DEFAULT_RADIUS = 15;
+    
+    public CollisionsWindow() {
+        super(TOPICS[MECH_ID][1]);
+        setHelpMessage("This section displays how collisions affect the paths and momenta of particles. Click play to make all the particles move.\n" + 
+                "Once any collide, they will transfer momentum between themselves. The red charge is the one whose momentum is displayed in the graph.");
+        for(int i = ZERO; i<balls.length; i++) balls[i] = new Ball(DEFAULT_RADIUS);
+        balls[ZERO].setFill(Color.RED);
+    }
+
+    @Override
+    protected void addPoint() {
+        addPoint(getRunningTime(), balls[ZERO].vel.getMagnitude());
+    }
+    
+    @Override
+    public void update() {
+        for(Ball b : balls) b.update();
+    }
+    
+    @Override
+    public void resetVariables() {
+        for (Ball sample : balls) {
+            sample.resetToRandom();
+        }
+    }
+
+    @Override
+    public Pane initAnimationPane() {
+        Pane result = new Pane(balls);
+        result.setPrefSize(paneWidth, paneHeight);
+        return result;
+    }
+
+    @Override
+    public void onPlayClick() {}
     
     private class Ball extends Circle {
         Vector2 vel;
@@ -76,45 +113,4 @@ public class CollisionsWindow extends AbstractWindow {
             return b.getPosition().sub(getPosition()).getMagnitude()<=b.getRadius()+getRadius();
         }
     }
-    private Ball[] balls = new Ball[10];
-    private final int DEFAULT_RADIUS = 15;
-    
-    public CollisionsWindow() {
-        super(TOPICS[MECH_ID][1]);
-        for(int i = ZERO; i<balls.length; i++) balls[i] = new Ball(DEFAULT_RADIUS);
-        balls[ZERO].setFill(Color.RED);
-    }
-
-    @Override
-    protected void addPoint() {
-        addPoint(getRunningTime(), balls[ZERO].vel.getMagnitude());
-    }
-    
-    @Override
-    public void update() {
-        for(Ball b : balls) b.update();
-    }
-    
-    @Override
-    public void resetVariables() {
-        for (Ball sample : balls) {
-            sample.resetToRandom();
-        }
-    }
-
-    @Override
-    public String helpMessage() {
-        return "This section displays how collisions affect the paths and momenta of particles. Click play to make all the particles move.\n" + 
-                "Once any collide, they will transfer momentum between themselves. The red charge is the one whose momentum is displayed in the graph.";
-    }
-
-    @Override
-    public Pane initAnimationPane() {
-        Pane result = new Pane(balls);
-        result.setPrefSize(paneWidth, paneHeight);
-        return result;
-    }
-
-    @Override
-    public void onPlayClick() {}
 }
