@@ -1,5 +1,7 @@
 package projectdnimoy.magnetic;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,6 +19,7 @@ import projectdnimoy.others.Vector2;
  * @author Ivan Miloslavov
  */
 public class MagneticWindow extends AbstractWindow {
+    Wire wire  = new Wire();
     final int wireX = 20, maxVel = 50;
     Charge c;
 
@@ -25,6 +28,9 @@ public class MagneticWindow extends AbstractWindow {
         setHelpMessage("This simulation displays the effect of a magnetic field coming from a straight wire with a constant current on an electric charge.\n" + 
                 "Click play to watch the trajectory of the particle, repeated in graph form.\nClicking reset will place a new particle at a new starting location and with a new starting velocity vector.");
         c = new Charge(5);
+        wire.setX(wireX);
+        wire.setFitHeight(paneHeight);
+        wire.isPreserveRatio();
     }
 
     @Override
@@ -34,20 +40,28 @@ public class MagneticWindow extends AbstractWindow {
 
     @Override
     public void resetVariables() {
+         
         c.reset();
     }
 
     @Override
     public Pane initAnimationPane() {
-        Pane result = new Pane(c);
+        Pane result = new Pane(c,wire);
         result.setPrefSize(paneWidth, paneHeight);
         return result;
     }
 
     @Override
     public void update() {
+       
         c.update();
         if(c.vel.getMagnitude()>maxVel) pauseRunning();
+    }
+    
+    private class Wire extends ImageView {
+        Wire(){
+            super(new Image("projectdnimoy/images/wire.png"));
+        }
     }
     
     private class Charge extends Circle {
@@ -60,7 +74,7 @@ public class MagneticWindow extends AbstractWindow {
         }
         
         public void reset() {
-            setCenterX(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius());
+            setCenterX(Math.max(r.nextInt(paneWidth-(int)getRadius()*2)+(int)getRadius(), wireX+10));
             setCenterY(r.nextInt(paneHeight-(int)getRadius()*2)+(int)getRadius());
             start.setX(getCenterX());
             start.setY(getCenterY());
