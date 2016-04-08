@@ -21,7 +21,7 @@ public class CannonWindow extends AbstractWindow {
     double tet=0, v=0;
     
     public CannonWindow(){
-        super(TOPICS[MECH_ID][0]);
+        super(TOPICS[MECH_ID][0], TIME_AXIS, HEIGHT_AXIS);
         setHelpMessage("Click and drag the cannon to give it initial velocity and angle of shot. "
                 + "Press start and observe the cannonball's trajectory. "
                 + "The farther you drag, the stronger the shot!");

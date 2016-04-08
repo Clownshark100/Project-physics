@@ -20,7 +20,7 @@ public class CoulombWindow extends AbstractWindow {
     final int DEFAULT_CHARGE = 10;
     
     public CoulombWindow() {
-        super(TOPICS[ENM_ID][0]);
+        super(TOPICS[ENM_ID][0], TIME_AXIS, VEL_AXIS);
         setHelpMessage("The Coulomb's law, explaining the movement of electric charges in electric fields, is presented here.\n" + 
                 "Click play and watch the dynamic red charge obey the electric fields made by the black static charges.\n" +
                 "Clicking reset will reconfigure the positions and charge of all charges.\n" +

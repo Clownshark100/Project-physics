@@ -18,7 +18,7 @@ public class LensWindow extends AbstractWindow {
     double f = 30, p = 160, v = 30;
     
     public LensWindow(){
-        super(TOPICS[WAVES_ID][0]);
+        super(TOPICS[WAVES_ID][0], DIST_AXIS, "Image Distance (px)");
         setHelpMessage("This simulation presents the effect of lenses on images.\nPress play to visualize the displacement of an image created" + 
                 " by a convergent lens depending on the displcement of the original object.");
         resetVariables();

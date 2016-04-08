@@ -19,7 +19,7 @@ public class PendulumWindow extends AbstractWindow {
     private final short MAX_ANGLE = 100, LENGTH_MOD = 200;
      
     public PendulumWindow() {
-        super(TOPICS[WAVES_ID][1]);
+        super(TOPICS[WAVES_ID][1], TIME_AXIS, ANGLE_AXIS);
         setHelpMessage("This section simulates a simple harmonic motion pendulum. \nWhile the program plays " + 
                 "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum.");
         thread.setStartX(paneWidth/2);

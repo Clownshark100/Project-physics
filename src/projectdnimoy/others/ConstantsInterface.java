@@ -17,10 +17,11 @@ public interface ConstantsInterface {
     String HELP_TEXT = "Help", DONE_TEXT = "Done", RESET_TEXT = "Reset", PLAY_TEXT = "Play", PAUSE_TEXT = "Pause";
     short[] xSubPosition = new short[]{100 , 320 , 540};
     short[] ySubPosition = new short[]{10 , 130 , 260};
-    short paneWidth = width, paneHeight = height-200;
+    short chartHeight = 200, paneWidth = width, paneHeight = height-chartHeight;
     double G = 9.80665, K = 8.987551E9;
     byte UPDATE_FRAMERATE = 25;
     short CHART_FRAMERATE = 166;
+    String TIME_AXIS = "Time (s)", DIST_AXIS = "Horizontal Distance (px)", HEIGHT_AXIS = "Height (px)", ANGLE_AXIS = "Angle (degrees)", VEL_AXIS = "Velocity (px/s)";
     
    
 }

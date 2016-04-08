@@ -24,7 +24,7 @@ public class MagneticWindow extends AbstractWindow {
     Charge c;
 
     public MagneticWindow() {
-        super(TOPICS[ENM_ID][1]);
+        super(TOPICS[ENM_ID][1], DIST_AXIS, HEIGHT_AXIS);
         setHelpMessage("This simulation displays the effect of a magnetic field coming from a straight wire with a constant current on an electric charge.\n" + 
                 "Click play to watch the trajectory of the particle, repeated in graph form.\nClicking reset will place a new particle at a new starting location and with a new starting velocity vector.");
         c = new Charge(5);

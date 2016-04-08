@@ -21,7 +21,7 @@ public class CollisionsWindow extends AbstractWindow {
     private final int DEFAULT_RADIUS = 15;
     
     public CollisionsWindow() {
-        super(TOPICS[MECH_ID][1]);
+        super(TOPICS[MECH_ID][1], TIME_AXIS, "Momentum (kg*m/s)");
         setHelpMessage("This section displays how collisions affect the paths and momenta of particles. Click play to make all the particles move.\n" + 
                 "Once any collide, they will transfer momentum between themselves. The red charge is the one whose momentum is displayed in the graph.");
         for(int i = ZERO; i<balls.length; i++) balls[i] = new Ball(DEFAULT_RADIUS);

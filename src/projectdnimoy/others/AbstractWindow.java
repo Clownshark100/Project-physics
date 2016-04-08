@@ -40,10 +40,13 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
     protected Random r = new Random();
     private Button playPause;
     
-    public AbstractWindow(String title) {
+    public AbstractWindow(String title, String xAxisName, String yAxisName) {
         this.running = false;
         chart = new ScatterChart(new NumberAxis(), new NumberAxis());
-        chart.setPrefHeight(200);
+        chart.setPrefHeight(chartHeight);
+        chart.setLegendVisible(false);
+        chart.getXAxis().setLabel(xAxisName);
+        chart.getYAxis().setLabel(yAxisName);
         mainSeries = new XYChart.Series();
         chart.getData().add(mainSeries);
         t.schedule(new TimerTask() {
