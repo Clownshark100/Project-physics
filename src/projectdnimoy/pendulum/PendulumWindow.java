@@ -75,6 +75,7 @@ public class PendulumWindow extends AbstractWindow {
                 startTheta = -Math.toDegrees(Math.atan2((thread.getEndX()-paneWidth/2), (thread.getEndY()-thread.getStartY())));
                 length = (Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2)));
                 omega = 10*Math.sqrt(G/length);
+                System.out.println(length);
                 }
             }
         });
