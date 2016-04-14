@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projectdnimoy.others;
 
 import java.util.Random;
@@ -23,10 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Ivan
- */
 public abstract class AbstractWindow extends Application implements ConstantsInterface {
     
     private final SimpleStringProperty title = new SimpleStringProperty(), helpMessage = new SimpleStringProperty();
@@ -108,7 +100,7 @@ public abstract class AbstractWindow extends Application implements ConstantsInt
         });
         help.setOnAction((ActionEvent e)->{
             if (playPause.getText().equals(PAUSE_TEXT)) playPause.fire();
-            JOptionPane.showMessageDialog(null, helpMessage, HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, getHelpMessage(), HELP_TEXT + " - " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
         });
         playPause.setOnAction((ActionEvent e)->{
             switch (playPause.getText()) {

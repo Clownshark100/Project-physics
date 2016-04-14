@@ -1,5 +1,7 @@
 package projectdnimoy.pendulum;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
@@ -12,7 +14,8 @@ import projectdnimoy.others.Vector2;
 
 public class PendulumWindow extends AbstractWindow {
 
-    private double omega, length, startTheta;
+    private double length, startTheta;
+    private DoubleProperty omega = new SimpleDoubleProperty();
     private boolean isFirst = true;
     private final Line thread = new Line();
     private final Circle mass = new Circle(20);
@@ -21,7 +24,8 @@ public class PendulumWindow extends AbstractWindow {
     public PendulumWindow() {
         super(TOPICS[WAVES_ID][1], TIME_AXIS, ANGLE_AXIS);
         setHelpMessage("This section simulates a simple harmonic motion pendulum. \nWhile the program plays " + 
-                "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum.");
+                "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum."
+                +" \nClick on the bob and drag it to the length and angle you want. Note that there is a \nmaximum length and if you make it longer, the bob will automatically go to the selected maximum.");
         thread.setStartX(paneWidth/2);
         thread.setStartY(paneHeight/4);
         mass.setCursor(Cursor.HAND);
@@ -34,7 +38,7 @@ public class PendulumWindow extends AbstractWindow {
     }
     
     private double getTheta() {
-        return startTheta*Math.cos(getRunningTime()*omega);
+        return startTheta*Math.cos(getRunningTime()*omega.get());
     }
     
     @Override
@@ -50,7 +54,7 @@ public class PendulumWindow extends AbstractWindow {
     public void resetVariables() {     
         startTheta = r.nextInt(MAX_ANGLE*2)-MAX_ANGLE;
         length = (r.nextDouble()+0.5)*LENGTH_MOD;
-        omega = 10*Math.sqrt(G/length);
+        omega.set(10*Math.sqrt(G/length));
         
         mass.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -73,8 +77,8 @@ public class PendulumWindow extends AbstractWindow {
                 mass.setCenterX(e.getSceneX());
                 mass.setCenterY(e.getSceneY());
                 startTheta = -Math.toDegrees(Math.atan2((thread.getEndX()-paneWidth/2), (thread.getEndY()-thread.getStartY())));
-                length = (Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2)));
-                omega = 10*Math.sqrt(G/length);
+                length = Math.min(290,(Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2))));
+                omega.set(10*Math.sqrt(G/length));
                 System.out.println(length);
                 }
             }
@@ -93,5 +97,9 @@ public class PendulumWindow extends AbstractWindow {
     @Override
     public void onPlayClick() {
         isFirst = false;
+    }
+    
+    public DoubleProperty omegaProperty() {
+        return omega;
     }
 }
