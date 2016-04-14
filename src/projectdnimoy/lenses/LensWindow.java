@@ -1,5 +1,7 @@
 package projectdnimoy.lenses;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -15,7 +17,7 @@ public class LensWindow extends AbstractWindow {
     Im image = new Im();
     ConvLens convLens = new ConvLens();
     Obj object = new Obj();
-    double f = 30, p = 160, v = 30;
+    private DoubleProperty p = new SimpleDoubleProperty(160);
     
     public LensWindow(){
         super(TOPICS[WAVES_ID][0], DIST_AXIS, "Image Distance (px)");
@@ -28,25 +30,25 @@ public class LensWindow extends AbstractWindow {
         return v*getRunningTime();
     }
     private double calculateIniImageDistance() {
-        return 1/(1/f - 1/p);  
+        return 1/(1/f - 1/p.getValue());  
     }
     private double calculateImageDistance(){
-        return 1/(1/f-1/(p-calculateObjectDistance()));
+        return 1/(1/f-1/(p.getValue()-calculateObjectDistance()));
     }
     private double calculateIniImageSize() {
-        return (calculateIniImageDistance()*object.getFitHeight())/p;  
+        return (calculateIniImageDistance()*object.getFitHeight())/p.getValue();  
     }
      private double calculateImageSize() {
-        return (calculateImageDistance()*object.getFitHeight())/p;  
+        return (calculateImageDistance()*object.getFitHeight())/p.getValue();  
     }
     
     public void resetVariables() {
-     p= 160;
+     p.setValue(160);
      convLens.setFitHeight(250);
      convLens.setPreserveRatio(true);
      convLens.setX(275);
      convLens.setY(100);
-     object.setX(convLens.getX()+52-2*p + object.getFitWidth());
+     object.setX(convLens.getX()+52-2*p.getValue() + object.getFitWidth());
      object.setY(120);
      object.setSize(120);
      object.isPreserveRatio();
@@ -69,7 +71,7 @@ public class LensWindow extends AbstractWindow {
 
     @Override
     protected void addPoint() {
-       addPoint(p-calculateObjectDistance(), 
+       addPoint(p.getValue()-calculateObjectDistance(), 
                calculateImageDistance());
     }
     @Override
