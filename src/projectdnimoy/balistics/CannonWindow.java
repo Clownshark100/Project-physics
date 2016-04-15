@@ -18,7 +18,7 @@ public class CannonWindow extends AbstractWindow {
     CannonBody can = new CannonBody();
     CannonSmoke s = new CannonSmoke();
     boolean isFirst = false;
-    double tet=0, v=0;
+    double tet=ZERO, v=ZERO;
     
     public CannonWindow(){
         super(TOPICS[MECH_ID][0], TIME_AXIS, HEIGHT_AXIS);
@@ -39,10 +39,10 @@ public class CannonWindow extends AbstractWindow {
     
     @Override
     public void resetVariables() {
-        tet = 30+r.nextDouble()*40;
-        v = 40+r.nextDouble()*60;
-        can.setX(0);
-        can.setY(paneHeight-32);
+        tet = RCINITIAL_THETA+r.nextDouble()*CANNON_FACTOR1;
+        v = CANNON_FACTOR1+r.nextDouble()*CANNON_FACTOR2;
+        can.setX(ZERO);
+        can.setY(paneHeight-CANNON_POSITION);
         can.setRotate(-tet);
         can.setCursor(Cursor.HAND);
         can.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -61,13 +61,13 @@ public class CannonWindow extends AbstractWindow {
                     Vector2 launch = new Vector2(Math.max(0,e.getSceneX()-can.getX()), Math.max(0,can.getY()-e.getSceneY()));
                     can.setRotate(Math.toDegrees(-launch.getDirection()));
                     tet = -can.getRotate();
-                    v=launch.getMagnitude()/4;
+                    v=launch.getMagnitude()/QUARTER;
                 }
             }
         });
-        ball.setPosition(16, paneHeight-32);
-        s.setX(27);
-        s.setY(paneHeight-80);
+        ball.setPosition((CANNON_POSITION2), paneHeight-CANNON_POSITION);
+        s.setX(SMOKE_X);
+        s.setY(paneHeight-SMOKE_Y);
         isFirst = true;
     }
 
@@ -81,12 +81,12 @@ public class CannonWindow extends AbstractWindow {
 
     @Override
     protected void addPoint() {
-        addPoint(getRunningTime(), calculateHeight()+16);
+        addPoint(getRunningTime(), calculateHeight()+(CANNON_POSITION2));
     }
 
     @Override
     public void update() {
-        ball.setPosition(calculateDistance()+16, paneHeight-32-calculateHeight());
+        ball.setPosition(calculateDistance()+(CANNON_POSITION2), paneHeight-CANNON_POSITION-calculateHeight());
         if (outOfWindow()) pauseRunning();
     }
 
@@ -95,9 +95,9 @@ public class CannonWindow extends AbstractWindow {
         if (isFirst) {
             FadeTransition ft = new FadeTransition(Duration.millis(200), s);
             s.setVisible(true);
-            ft.setFromValue(0.0);
-            ft.setToValue(1.0);
-            ft.setCycleCount(2);
+            ft.setFromValue(ZERO);
+            ft.setToValue(ONE);
+            ft.setCycleCount(HALF);
             ft.setAutoReverse(true);
             ft.play();
             isFirst = false; 
@@ -105,7 +105,7 @@ public class CannonWindow extends AbstractWindow {
     }
     
     private boolean outOfWindow() {
-        return ball.getX()<0 || ball.getX()>paneWidth || ball.getY()<0 || (ball.getY()+16)>paneHeight;
+        return ball.getX()<ZERO || ball.getX()>paneWidth || ball.getY()<ZERO || (ball.getY()+16)>paneHeight;
     }
 
     private class CannonBall extends ImageView {

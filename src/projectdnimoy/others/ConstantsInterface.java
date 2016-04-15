@@ -4,9 +4,10 @@ import javafx.scene.paint.Color;
 
 public interface ConstantsInterface {
     byte MECH_ID = 0, WAVES_ID = 1, ENM_ID = 2;
-    short width = 800, height = 600;
-    byte ZERO = 0;
-    double f=30;
+    short width = 800, height = 600, MAX_THREAD = 290, MAX_ANGLE = 100, LENGTH_MOD = 200, STRAIGHT_ANGLE = 90;
+    byte ZERO = 0, ONE = 1, HALF = 2, QUARTER = 4;
+    double f=30; 
+    int RCINITIAL_THETA = 30, CANNON_FACTOR1 = 40, CANNON_FACTOR2 = 60, CANNON_POSITION = 32, CANNON_POSITION2 = 16, SMOKE_X = 27, SMOKE_Y = 80, PENDULUM_FACTOR = 10;
     
     String[] SUBJECTS = new String[]{" MECHANICS ", "WAVES AND OPTICS ", "ELECTRICITY AND\n  MAGNETISM "};
     String[][] TOPICS = new String[][]{{"2D Ballistics", "Collisions and\n Momentum"},

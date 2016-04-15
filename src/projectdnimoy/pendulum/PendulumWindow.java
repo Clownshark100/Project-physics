@@ -19,15 +19,14 @@ public class PendulumWindow extends AbstractWindow {
     private boolean isFirst = true;
     private final Line thread = new Line();
     private final Circle mass = new Circle(20);
-    private final short MAX_ANGLE = 100, LENGTH_MOD = 200;
      
     public PendulumWindow() {
         super(TOPICS[WAVES_ID][1], TIME_AXIS, ANGLE_AXIS);
         setHelpMessage("This section simulates a simple harmonic motion pendulum. \nWhile the program plays " + 
                 "the pendulum will continuously oscillate without losing any energy. \nOn clicking reset, the pendulum will restart from a new starting angle and length of pendulum."
                 +" \nClick on the bob and drag it to the length and angle you want. Note that there is a \nmaximum length and if you make it longer, the bob will automatically go to the selected maximum.");
-        thread.setStartX(paneWidth/2);
-        thread.setStartY(paneHeight/4);
+        thread.setStartX(paneWidth/HALF);
+        thread.setStartY(paneHeight/QUARTER);
         mass.setCursor(Cursor.HAND);
         resetVariables();
     }
@@ -43,7 +42,7 @@ public class PendulumWindow extends AbstractWindow {
     
     @Override
     public void update() {
-        Vector2 v = Vector2.fromPolar(length, Math.toRadians(getTheta()+90));
+        Vector2 v = Vector2.fromPolar(length, Math.toRadians(getTheta()+STRAIGHT_ANGLE));
         thread.setEndX(thread.getStartX()+v.getX());
         thread.setEndY(thread.getStartY()+v.getY());
         mass.setCenterX(thread.getEndX());
@@ -52,9 +51,9 @@ public class PendulumWindow extends AbstractWindow {
     
     @Override
     public void resetVariables() {     
-        startTheta = r.nextInt(MAX_ANGLE*2)-MAX_ANGLE;
+        startTheta = r.nextInt(MAX_ANGLE*HALF)-MAX_ANGLE;
         length = (r.nextDouble()+0.5)*LENGTH_MOD;
-        omega.set(10*Math.sqrt(G/length));
+        omega.set(PENDULUM_FACTOR*Math.sqrt(G/length));
         
         mass.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -76,9 +75,9 @@ public class PendulumWindow extends AbstractWindow {
                 thread.setEndY(e.getSceneY());
                 mass.setCenterX(e.getSceneX());
                 mass.setCenterY(e.getSceneY());
-                startTheta = -Math.toDegrees(Math.atan2((thread.getEndX()-paneWidth/2), (thread.getEndY()-thread.getStartY())));
-                length = Math.min(290,(Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2))));
-                omega.set(10*Math.sqrt(G/length));
+                startTheta = -Math.toDegrees(Math.atan2((thread.getEndX()-paneWidth/HALF), (thread.getEndY()-thread.getStartY())));
+                length = Math.min(MAX_THREAD,(Math.sqrt(Math.pow(thread.getEndX()-thread.getStartX(),2)+Math.pow(thread.getEndY()-thread.getStartY(),2))));
+                omega.set(PENDULUM_FACTOR*Math.sqrt(G/length));
                 }
             }
         });
