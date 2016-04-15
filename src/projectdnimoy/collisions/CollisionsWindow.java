@@ -11,10 +11,6 @@ import javafx.scene.shape.Circle;
 import projectdnimoy.others.AbstractWindow;
 import projectdnimoy.others.Vector2;
 
-/**
- *
- * @author cstuser
- */
 public class CollisionsWindow extends AbstractWindow {
     private final int MAX_VEL = 35;
     private Ball[] balls = new Ball[10];
@@ -93,20 +89,17 @@ public class CollisionsWindow extends AbstractWindow {
         }
 
 	public void transferMomentum(Ball other){
-		double dx = this.getCenterX()-other.getCenterX(), dy = this.getCenterY()-other.getCenterY();
-		double theta = Math.atan2(dy, dx);
-		double mag1 = this.vel.getMagnitude(), mag2 = other.vel.getMagnitude();
-		double dir1 = this.vel.getDirection(), dir2 = other.vel.getDirection();
-		double new_x1 = mag1*Math.cos(dir1-theta);
-		double new_y1 = mag1*Math.sin(dir1-theta);
-		double new_x2 = mag2*Math.cos(dir2-theta);
-		double new_y2 = mag2*Math.sin(dir2-theta);
-		double final_x1 = ((this.mass-other.mass)*new_x1+(other.mass+other.mass)*new_x2)/(this.mass+other.mass);
-		double final_x2 = ((other.mass-this.mass)*new_x2+(this.mass+this.mass)*new_x1)/(this.mass+other.mass);
-		this.vel.setX(Math.cos(theta)*final_x1+Math.cos(theta+Math.PI/2)*new_y1);
-		this.vel.setY(Math.sin(theta)*final_x1+Math.sin(theta+Math.PI/2)*new_y1);
-		other.vel.setX(Math.cos(theta)*final_x2+Math.cos(theta+Math.PI/2)*new_y2);
-		other.vel.setY(Math.sin(theta)*final_x2+Math.sin(theta+Math.PI/2)*new_y2);
+		double theta = Math.atan2(this.getCenterY()-other.getCenterY(), this.getCenterX()-other.getCenterX());
+		double new_x1 = this.vel.getMagnitude()*Math.cos(this.vel.getDirection()-theta);
+		double new_y1 = this.vel.getMagnitude()*Math.sin(this.vel.getDirection()-theta);
+		double new_x2 = other.vel.getMagnitude()*Math.cos(other.vel.getDirection()-theta);
+		double new_y2 = other.vel.getMagnitude()*Math.sin(other.vel.getDirection()-theta);
+		double final_x1 = ((this.mass-other.mass)*new_x1+(2*other.mass)*new_x2)/(this.mass+other.mass);
+		double final_x2 = ((other.mass-this.mass)*new_x2+(2*this.mass)*new_x1)/(this.mass+other.mass);
+		this.vel.setX(Math.cos(theta)*final_x1-Math.sin(theta)*new_y1);
+		this.vel.setY(Math.sin(theta)*final_x1+Math.cos(theta)*new_y1);
+		other.vel.setX(Math.cos(theta)*final_x2-Math.sin(theta)*new_y2);
+		other.vel.setY(Math.sin(theta)*final_x2+Math.cos(theta)*new_y2);
 	}
 
         private boolean intersects(Ball b) {
