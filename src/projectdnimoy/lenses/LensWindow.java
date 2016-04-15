@@ -8,10 +8,6 @@ import javafx.scene.layout.Pane;
 import projectdnimoy.others.AbstractWindow;
 import static projectdnimoy.others.ConstantsInterface.TOPICS;
 
-/**
- *
- * @author Daniel Nahum
- */
 public class LensWindow extends AbstractWindow {
     
     Im image = new Im();
@@ -27,7 +23,7 @@ public class LensWindow extends AbstractWindow {
     }
     
     private double calculateObjectDistance(){
-        return v*getRunningTime();
+        return UPDATE_FRAMERATE*getRunningTime();
     }
     private double calculateIniImageDistance() {
         return 1/(1/f - 1/p.getValue());  

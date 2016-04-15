@@ -6,6 +6,7 @@ public interface ConstantsInterface {
     byte MECH_ID = 0, WAVES_ID = 1, ENM_ID = 2;
     short width = 800, height = 600;
     byte ZERO = 0;
+    double f=30;
     
     String[] SUBJECTS = new String[]{" MECHANICS ", "WAVES AND OPTICS ", "ELECTRICITY AND\n  MAGNETISM "};
     String[][] TOPICS = new String[][]{{"2D Ballistics", "Collisions and\n Momentum"},
