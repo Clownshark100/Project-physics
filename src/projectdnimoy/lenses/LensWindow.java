@@ -26,10 +26,10 @@ public class LensWindow extends AbstractWindow {
         return UPDATE_FRAMERATE*getRunningTime();
     }
     private double calculateIniImageDistance() {
-        return 1/(1/f - 1/p.getValue());  
+        return ONE/(ONE/f - ONE/p.getValue());  
     }
     private double calculateImageDistance(){
-        return 1/(1/f-1/(p.getValue()-calculateObjectDistance()));
+        return ONE/(ONE/f-ONE/(p.getValue()-calculateObjectDistance()));
     }
     private double calculateIniImageSize() {
         return (calculateIniImageDistance()*object.getFitHeight())/p.getValue();  
@@ -44,15 +44,15 @@ public class LensWindow extends AbstractWindow {
      convLens.isPreserveRatio();
      convLens.setX(lensPosX);
      convLens.setY(lensPosY);
-     object.setX(convLens.getX()+52-2*p.getValue() + object.getFitWidth());
+     object.setX(convLens.getX()+52-HALF*p.getValue() + object.getFitWidth());
      object.setY(objPostY);
      object.setSize(objPostY);
      object.isPreserveRatio();
-     image.setX(calculateIniImageDistance()*2+ convLens.getX()+52 - image.getFitWidth());
+     image.setX(calculateIniImageDistance()*HALF+ convLens.getX()+52 - image.getFitWidth());
      image.setY(imPosY);
      image.setSize(calculateIniImageSize());
      image.isPreserveRatio();
-     image.setRotate(imRotate);
+     image.setRotate(inverted);
      
       update();
     }    
@@ -60,7 +60,7 @@ public class LensWindow extends AbstractWindow {
     @Override
     public void update() {
        object.setPosition(calculateObjectDistance(), objPostY);   
-       image.setPosition(calculateImageDistance()*2+ convLens.getX()+52 - image.getFitWidth(),imPosY);
+       image.setPosition(calculateImageDistance()*HALF+ convLens.getX()+52 - image.getFitWidth(),imPosY);
        image.setSize(calculateImageSize());
        if(calculateObjectDistance()> maxP )pauseRunning();
     }    

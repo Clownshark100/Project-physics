@@ -64,10 +64,10 @@ public class Launcher extends Application implements ConstantsInterface {
     private VBox getTopicPane(int sub) {
         VBox out = new VBox();
         out.setPadding(new Insets(20));
-        out.setPrefWidth(width/4);
+        out.setPrefWidth(width/QUARTER);
         Text title = new Text(SUBJECTS[sub]);
         title.setFill(Color.WHITE);
-        title.setFont(Font.font(14));
+        title.setFont(Font.font(bFont));
         out.setAlignment(Pos.CENTER);
         out.setLayoutX(xSubPosition[sub]);
         out.setLayoutY(ySubPosition[sub]);
@@ -106,11 +106,11 @@ public class Launcher extends Application implements ConstantsInterface {
     private void launchWindow(int subject, int choice) {
         AbstractWindow w = null;
         switch(subject) {
-        case MECH_ID: if(choice == 1) w = new CollisionsWindow();
+        case MECH_ID: if(choice == ONE) w = new CollisionsWindow();
                       else w = new CannonWindow(); break;
-        case WAVES_ID:if(choice == 1) w=new PendulumWindow(); 
+        case WAVES_ID:if(choice == ONE) w=new PendulumWindow(); 
                       else {w = new LensWindow();} break;
-        case ENM_ID:  if(choice == 1) {w = new MagneticWindow();} 
+        case ENM_ID:  if(choice == ONE) {w = new MagneticWindow();} 
                       else w=new CoulombWindow(); break;
         }
         try {
