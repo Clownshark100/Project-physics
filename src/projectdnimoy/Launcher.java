@@ -38,12 +38,12 @@ public class Launcher extends Application implements ConstantsInterface {
                 , BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
         Button exit = new Button("  EXIT  ");
-        exit.setLayoutX(407);
-        exit.setLayoutY(430);
-        exit.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.NONE, CornerRadii.EMPTY, BorderStroke.DEFAULT_WIDTHS)));
+        exit.setLayoutX(exitPosX);
+        exit.setLayoutY(exitPosY);
+        exit.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.NONE, CornerRadii.EMPTY, BorderStroke.DEFAULT_WIDTHS)));
         exit.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         exit.setTextFill(Color.WHITE);
-        exit.setFont(Font.font(20));
+        exit.setFont(Font.font(exitFont));
         exit.setOnAction((ActionEvent event) -> {
             Alert a = new Alert(Alert.AlertType.INFORMATION, ADIOS_MESSAGE);
             a.setHeaderText(ADIOS_TITLE);
@@ -97,9 +97,9 @@ public class Launcher extends Application implements ConstantsInterface {
         b.setBorder(new Border(new BorderStroke(Color.STEELBLUE, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderStroke.DEFAULT_WIDTHS)));
         b.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         b.setTextAlignment(TextAlignment.CENTER);
-        b.setPrefSize(200, 50);
+        b.setPrefSize(bWidth, bHeight);
         b.setTextFill(Color.WHITE);
-        b.setFont(Font.font(14));
+        b.setFont(Font.font(bFont));
         return b;
     }
     

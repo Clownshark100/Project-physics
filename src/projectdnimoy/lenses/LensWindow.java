@@ -13,7 +13,7 @@ public class LensWindow extends AbstractWindow {
     Im image = new Im();
     ConvLens convLens = new ConvLens();
     Obj object = new Obj();
-    private DoubleProperty p = new SimpleDoubleProperty(160);
+    private DoubleProperty p = new SimpleDoubleProperty(pInitial);
     
     public LensWindow(){
         super(TOPICS[WAVES_ID][0], DIST_AXIS, "Image Distance (px)");
@@ -39,30 +39,30 @@ public class LensWindow extends AbstractWindow {
     }
     
     public void resetVariables() {
-     p.setValue(160);
-     convLens.setFitHeight(250);
-     convLens.setPreserveRatio(true);
-     convLens.setX(275);
-     convLens.setY(100);
+     p.setValue(pInitial);
+     convLens.setFitHeight(lensHeight);
+     convLens.isPreserveRatio();
+     convLens.setX(lensPosX);
+     convLens.setY(lensPosY);
      object.setX(convLens.getX()+52-2*p.getValue() + object.getFitWidth());
-     object.setY(120);
-     object.setSize(120);
+     object.setY(objPostY);
+     object.setSize(objPostY);
      object.isPreserveRatio();
      image.setX(calculateIniImageDistance()*2+ convLens.getX()+52 - image.getFitWidth());
-     image.setY(240);
+     image.setY(imPosY);
      image.setSize(calculateIniImageSize());
      image.isPreserveRatio();
-     image.setRotate(180);
+     image.setRotate(imRotate);
      
       update();
     }    
 
     @Override
     public void update() {
-       object.setPosition(calculateObjectDistance(), 120);   
-       image.setPosition(calculateImageDistance()*2+ convLens.getX()+52 - image.getFitWidth(),240);
+       object.setPosition(calculateObjectDistance(), objPostY);   
+       image.setPosition(calculateImageDistance()*2+ convLens.getX()+52 - image.getFitWidth(),imPosY);
        image.setSize(calculateImageSize());
-       if(calculateObjectDistance()> 110 )pauseRunning();
+       if(calculateObjectDistance()> maxP )pauseRunning();
     }    
 
     @Override
